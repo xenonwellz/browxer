@@ -9,38 +9,95 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as BrowserRouteImport } from './routes/browser'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BrowserIndexRouteImport } from './routes/browser/index'
+import { Route as BrowserBucketRouteImport } from './routes/browser/$bucket'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrowserRoute = BrowserRouteImport.update({
+  id: '/browser',
+  path: '/browser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrowserIndexRoute = BrowserIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BrowserRoute,
+} as any)
+const BrowserBucketRoute = BrowserBucketRouteImport.update({
+  id: '/$bucket',
+  path: '/$bucket',
+  getParentRoute: () => BrowserRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/browser': typeof BrowserRouteWithChildren
+  '/login': typeof LoginRoute
+  '/browser/$bucket': typeof BrowserBucketRoute
+  '/browser/': typeof BrowserIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/browser/$bucket': typeof BrowserBucketRoute
+  '/browser': typeof BrowserIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/browser': typeof BrowserRouteWithChildren
+  '/login': typeof LoginRoute
+  '/browser/$bucket': typeof BrowserBucketRoute
+  '/browser/': typeof BrowserIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/browser' | '/login' | '/browser/$bucket' | '/browser/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/login' | '/browser/$bucket' | '/browser'
+  id:
+    | '__root__'
+    | '/'
+    | '/browser'
+    | '/login'
+    | '/browser/$bucket'
+    | '/browser/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrowserRoute: typeof BrowserRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/browser': {
+      id: '/browser'
+      path: '/browser'
+      fullPath: '/browser'
+      preLoaderRoute: typeof BrowserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +105,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/browser/': {
+      id: '/browser/'
+      path: '/'
+      fullPath: '/browser/'
+      preLoaderRoute: typeof BrowserIndexRouteImport
+      parentRoute: typeof BrowserRoute
+    }
+    '/browser/$bucket': {
+      id: '/browser/$bucket'
+      path: '/$bucket'
+      fullPath: '/browser/$bucket'
+      preLoaderRoute: typeof BrowserBucketRouteImport
+      parentRoute: typeof BrowserRoute
+    }
   }
 }
 
+interface BrowserRouteChildren {
+  BrowserBucketRoute: typeof BrowserBucketRoute
+  BrowserIndexRoute: typeof BrowserIndexRoute
+}
+
+const BrowserRouteChildren: BrowserRouteChildren = {
+  BrowserBucketRoute: BrowserBucketRoute,
+  BrowserIndexRoute: BrowserIndexRoute,
+}
+
+const BrowserRouteWithChildren =
+  BrowserRoute._addFileChildren(BrowserRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrowserRoute: BrowserRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
