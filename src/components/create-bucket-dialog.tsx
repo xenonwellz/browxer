@@ -63,10 +63,10 @@ export function CreateBucketDialog() {
       if (validationError) {
         throw new Error(validationError)
       }
-      
+
       const finalRegion = region === 'custom' ? customRegion : region
       if (region === 'custom' && !finalRegion) {
-        throw new Error("Custom region is required")
+        throw new Error('Custom region is required')
       }
 
       return createBucket({ data: { bucketName, region: finalRegion } })
@@ -149,15 +149,15 @@ export function CreateBucketDialog() {
                 </SelectContent>
               </Select>
               {region === 'custom' && (
-                  <div className="mt-2">
-                    <Input
-                      placeholder="Enter custom region"
-                      value={customRegion}
-                      onChange={(e) => setCustomRegion(e.target.value)}
-                      required
-                    />
-                  </div>
-                )}
+                <div className="mt-2">
+                  <Input
+                    placeholder="Enter custom region"
+                    value={customRegion}
+                    onChange={(e) => setCustomRegion(e.target.value)}
+                    required
+                  />
+                </div>
+              )}
             </div>
           </div>
 

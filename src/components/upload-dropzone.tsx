@@ -1,10 +1,5 @@
 import * as React from 'react'
-import {
-  File,
-  Loader2,
-  Upload,
-  X,
-} from 'lucide-react'
+import { File, Loader2, Upload, X } from 'lucide-react'
 import { useUpload } from '@/hooks/use-upload'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'

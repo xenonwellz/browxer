@@ -1,13 +1,7 @@
 import * as React from 'react'
 import { Link, useParams } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import {
-  Database,
-  MoreVertical,
-  RefreshCw,
-  Search,
-  Shield,
-} from 'lucide-react'
+import { Database, MoreVertical, RefreshCw, Search, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Input } from '@/components/ui/input'
@@ -51,7 +45,9 @@ export function BucketSidebar({ className }: { className?: string }) {
 
   return (
     <>
-      <div className={cn('flex flex-col h-full border-r bg-muted/20', className)}>
+      <div
+        className={cn('flex flex-col h-full border-r bg-muted/20', className)}
+      >
         <div className="p-4 border-b flex items-center justify-between">
           <h2 className="font-semibold flex items-center gap-2">
             <Database className="h-4 w-4" />
@@ -65,7 +61,9 @@ export function BucketSidebar({ className }: { className?: string }) {
               onClick={() => refetch()}
               disabled={isFetching}
             >
-              <RefreshCw className={cn('h-4 w-4', isFetching && 'animate-spin')} />
+              <RefreshCw
+                className={cn('h-4 w-4', isFetching && 'animate-spin')}
+              />
             </Button>
           </div>
         </div>

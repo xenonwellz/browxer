@@ -7,7 +7,10 @@ import { format } from 'date-fns'
 import { getSession } from '@/routes/-login.server'
 import { listObjects } from '@/routes/browser/-$bucket.server'
 import { listBuckets } from '@/routes/browser/-browser.server'
-import { generatePublicReadPolicy, getBucketPolicy } from '@/routes/browser/-bucket-management.server'
+import {
+  generatePublicReadPolicy,
+  getBucketPolicy,
+} from '@/routes/browser/-bucket-management.server'
 import { BreadcrumbNav } from '@/components/breadcrumb-nav'
 import { ObjectTable } from '@/components/object-table'
 import { MetadataPanel } from '@/components/metadata-panel'
@@ -70,8 +73,11 @@ function BucketPage() {
     if (!policyData?.hasPolicy || !policyData.policy) return 'Private'
     try {
       const normalizedIncoming = policyData.policy.replace(/\s/g, '')
-      const normalizedPublic = generatePublicReadPolicy(bucket).replace(/\s/g, '')
-      
+      const normalizedPublic = generatePublicReadPolicy(bucket).replace(
+        /\s/g,
+        '',
+      )
+
       return normalizedIncoming === normalizedPublic ? 'Public' : 'Custom'
     } catch {
       return 'Custom'
@@ -91,8 +97,14 @@ function BucketPage() {
           <div className="flex items-center gap-4 text-xs">
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground font-medium">Policy:</span>
-              <Badge 
-                variant={policyStatus === 'Public' ? 'default' : policyStatus === 'Private' ? 'secondary' : 'outline'}
+              <Badge
+                variant={
+                  policyStatus === 'Public'
+                    ? 'default'
+                    : policyStatus === 'Private'
+                      ? 'secondary'
+                      : 'outline'
+                }
                 className="cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={() => setIsPolicyDialogOpen(true)}
               >
@@ -101,7 +113,9 @@ function BucketPage() {
             </div>
             {currentBucket?.CreationDate && (
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground font-medium">Created:</span>
+                <span className="text-muted-foreground font-medium">
+                  Created:
+                </span>
                 <Badge variant="outline" className="font-normal">
                   {format(new Date(currentBucket.CreationDate), 'MMM d, yyyy')}
                 </Badge>
@@ -175,7 +189,7 @@ function BucketPage() {
         onPreview={setPreviewObject}
       />
 
-      <ImagePreviewDialog 
+      <ImagePreviewDialog
         bucket={bucket}
         object={previewObject}
         open={!!previewObject}

@@ -3,7 +3,6 @@ import {
   ArrowUp,
   Download,
   Edit3,
-
   File,
   Folder,
   Info,
@@ -23,10 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  Card,
-  CardContent,
-} from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -104,7 +100,7 @@ export function ObjectTable({
 
   const totalItems = allItems.length
   const totalPages = Math.ceil(totalItems / itemsPerPage)
-  
+
   const startIndex = (currentPage - 1) * itemsPerPage
   const paginatedItems = allItems.slice(startIndex, startIndex + itemsPerPage)
 
@@ -153,7 +149,8 @@ export function ObjectTable({
 
   const handleDownload = async (obj: any) => {
     try {
-      const { getDownloadUrl } = await import('@/routes/browser/-$bucket.server')
+      const { getDownloadUrl } =
+        await import('@/routes/browser/-$bucket.server')
       const { url } = await getDownloadUrl({ data: { bucket, key: obj.key } })
 
       const link = document.createElement('a')
@@ -187,9 +184,7 @@ export function ObjectTable({
           />
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="secondary">
-            {totalItems} items
-          </Badge>
+          <Badge variant="secondary">{totalItems} items</Badge>
         </div>
       </div>
 
@@ -244,7 +239,10 @@ export function ObjectTable({
                     if (item.type === 'folder') {
                       const folder = item.data as string
                       return (
-                        <TableRow key={folder} className="cursor-pointer hover:bg-foreground/3 transition-colors">
+                        <TableRow
+                          key={folder}
+                          className="cursor-pointer hover:bg-foreground/3 transition-colors"
+                        >
                           <TableCell className="h-12 py-0" colSpan={4}>
                             <Link
                               to="/browser/$bucket"
@@ -253,9 +251,15 @@ export function ObjectTable({
                               className="flex items-center gap-2 font-medium hover:text-primary"
                             >
                               <Folder className="h-4 w-4 text-primary fill-primary shrink-0" />
-                              <span className="truncate block max-w-[300px]">{folder.split('/').filter(Boolean).pop()}/</span>
-                              <span className="ml-auto text-muted-foreground text-sm">-</span>
-                              <span className="text-muted-foreground text-sm min-w-[120px]">-</span>
+                              <span className="truncate block max-w-[300px]">
+                                {folder.split('/').filter(Boolean).pop()}/
+                              </span>
+                              <span className="ml-auto text-muted-foreground text-sm">
+                                -
+                              </span>
+                              <span className="text-muted-foreground text-sm min-w-[120px]">
+                                -
+                              </span>
                               <div className="h-8 w-8" />
                             </Link>
                           </TableCell>
@@ -265,40 +269,63 @@ export function ObjectTable({
 
                     const obj = item.data
                     return (
-                      <TableRow 
+                      <TableRow
                         key={obj.key}
                         className="cursor-pointer hover:bg-muted/50 transition-colors"
                         onClick={(e) => {
                           // Prevent triggering when clicking actions button
-                          if ((e.target as HTMLElement).closest('[data-radix-collection-item], button')) return
+                          if (
+                            (e.target as HTMLElement).closest(
+                              '[data-radix-collection-item], button',
+                            )
+                          )
+                            return
                           onSelectObject(obj)
                         }}
                       >
                         <TableCell className="h-12 py-0">
                           <div className="flex items-center gap-2 font-medium max-w-[300px]">
                             <File className="h-4 w-4 text-muted-foreground shrink-0" />
-                            <span className="truncate block">{obj.key.split('/').pop()}</span>
+                            <span className="truncate block">
+                              {obj.key.split('/').pop()}
+                            </span>
                           </div>
                         </TableCell>
-                        <TableCell className="h-12 py-0">{formatBytes(obj.size)}</TableCell>
                         <TableCell className="h-12 py-0">
-                          {format(new Date(obj.lastModified), 'MMM d, yyyy HH:mm')}
+                          {formatBytes(obj.size)}
+                        </TableCell>
+                        <TableCell className="h-12 py-0">
+                          {format(
+                            new Date(obj.lastModified),
+                            'MMM d, yyyy HH:mm',
+                          )}
                         </TableCell>
                         <TableCell className="h-12 py-0 text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger
-                              render={<Button variant="ghost" size="icon" className="h-8 w-8" />}
+                              render={
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-8 w-8"
+                                />
+                              }
                             >
                               <MoreHorizontal className="h-4 w-4" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuGroup>
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem onClick={() => onSelectObject(obj)}>
-                                  <Info className="mr-2 h-4 w-4" /> View Metadata
+                                <DropdownMenuItem
+                                  onClick={() => onSelectObject(obj)}
+                                >
+                                  <Info className="mr-2 h-4 w-4" /> View
+                                  Metadata
                                 </DropdownMenuItem>
 
-                                <DropdownMenuItem onClick={() => handleDownload(obj)}>
+                                <DropdownMenuItem
+                                  onClick={() => handleDownload(obj)}
+                                >
                                   <Download className="mr-2 h-4 w-4" /> Download
                                 </DropdownMenuItem>
 
@@ -344,7 +371,9 @@ export function ObjectTable({
         {totalPages > 1 && (
           <div className="flex items-center justify-between p-4 bg-muted/5">
             <p className="text-sm text-muted-foreground">
-              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems} items
+              Showing {startIndex + 1} to{' '}
+              {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems}{' '}
+              items
             </p>
             <div className="flex items-center gap-2">
               <Button
@@ -361,7 +390,9 @@ export function ObjectTable({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
+                }
                 disabled={currentPage === totalPages}
               >
                 Next

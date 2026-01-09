@@ -45,7 +45,7 @@ export function BrowserLayout() {
         </div>
 
         <div className="flex-1" />
-        
+
         <div className="flex items-center gap-2">
           <ThemeSelector />
           <AlertDialog>
@@ -70,7 +70,9 @@ export function BrowserLayout() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => logout()}>Logout</AlertDialogAction>
+                <AlertDialogAction onClick={() => logout()}>
+                  Logout
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

@@ -57,12 +57,15 @@ export function BucketPolicyDialog({
       } else {
         const policy = policyData.policy || ''
         setCustomPolicy(policy)
-        
+
         // Check if it matches the public read policy strictly (ignoring whitespace)
         try {
           const normalizedIncoming = policy.replace(/\s/g, '')
-          const normalizedPublic = generatePublicReadPolicy(bucket).replace(/\s/g, '')
-          
+          const normalizedPublic = generatePublicReadPolicy(bucket).replace(
+            /\s/g,
+            '',
+          )
+
           setMode(normalizedIncoming === normalizedPublic ? 'public' : 'custom')
         } catch {
           setMode('custom')
@@ -211,13 +214,17 @@ export function BucketPolicyDialog({
                 </Label>
                 <Textarea
                   id="custom-policy"
-                  value={mode === 'public' ? generatePublicReadPolicy(bucket) : customPolicy}
+                  value={
+                    mode === 'public'
+                      ? generatePublicReadPolicy(bucket)
+                      : customPolicy
+                  }
                   onChange={handleCustomPolicyChange}
                   readOnly={mode === 'public'}
                   placeholder='{"Version": "2012-10-17", "Statement": [...]}'
                   className={cn(
-                    "font-mono min-h-[200px] text-xs!",
-                    mode === 'public' && "bg-muted/50 text-muted-foreground"
+                    'font-mono min-h-[200px] text-xs!',
+                    mode === 'public' && 'bg-muted/50 text-muted-foreground',
                   )}
                 />
                 {jsonError && mode === 'custom' && (

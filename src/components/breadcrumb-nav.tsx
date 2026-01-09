@@ -66,4 +66,3 @@ export function BreadcrumbNav({ bucket, prefix }: BreadcrumbNavProps) {
     </Breadcrumb>
   )
 }
-
