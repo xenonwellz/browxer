@@ -13,6 +13,7 @@ import { ObjectTable } from '@/components/object-table'
 import { MetadataPanel } from '@/components/metadata-panel'
 import { UploadDropzone } from '@/components/upload-dropzone'
 import { BucketPolicyDialog } from '@/components/bucket-policy-dialog'
+import { ImagePreviewDialog } from '@/components/image-preview-dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -44,6 +45,7 @@ function BucketPage() {
   const { bucket } = Route.useParams()
   const { prefix = '' } = Route.useSearch()
   const [selectedObject, setSelectedObject] = React.useState<any | null>(null)
+  const [previewObject, setPreviewObject] = React.useState<any | null>(null)
   const [isUploadOpen, setIsUploadOpen] = React.useState(false)
   const [isPolicyDialogOpen, setIsPolicyDialogOpen] = React.useState(false)
 
@@ -170,6 +172,14 @@ function BucketPage() {
         bucket={bucket}
         object={selectedObject}
         onClose={() => setSelectedObject(null)}
+        onPreview={setPreviewObject}
+      />
+
+      <ImagePreviewDialog 
+        bucket={bucket}
+        object={previewObject}
+        open={!!previewObject}
+        onOpenChange={(open) => !open && setPreviewObject(null)}
       />
 
       <BucketPolicyDialog

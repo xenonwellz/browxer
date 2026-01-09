@@ -3,6 +3,7 @@ import {
   ArrowUp,
   Download,
   Edit3,
+
   File,
   Folder,
   Info,
@@ -264,7 +265,15 @@ export function ObjectTable({
 
                     const obj = item.data
                     return (
-                      <TableRow key={obj.key}>
+                      <TableRow 
+                        key={obj.key}
+                        className="cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={(e) => {
+                          // Prevent triggering when clicking actions button
+                          if ((e.target as HTMLElement).closest('[data-radix-collection-item], button')) return
+                          onSelectObject(obj)
+                        }}
+                      >
                         <TableCell className="h-12 py-0">
                           <div className="flex items-center gap-2 font-medium max-w-[300px]">
                             <File className="h-4 w-4 text-muted-foreground shrink-0" />
@@ -288,6 +297,7 @@ export function ObjectTable({
                                 <DropdownMenuItem onClick={() => onSelectObject(obj)}>
                                   <Info className="mr-2 h-4 w-4" /> View Metadata
                                 </DropdownMenuItem>
+
                                 <DropdownMenuItem onClick={() => handleDownload(obj)}>
                                   <Download className="mr-2 h-4 w-4" /> Download
                                 </DropdownMenuItem>

@@ -26,14 +26,22 @@ interface MetadataPanelProps {
   bucket: string
   object: any | null
   onClose: () => void
+  onPreview: (object: any) => void
 }
 
-export function MetadataPanel({ bucket, object, onClose }: MetadataPanelProps) {
+export function MetadataPanel({ bucket, object, onClose, onPreview }: MetadataPanelProps) {
   const { data: metadata, isLoading } = useQuery({
     queryKey: ['metadata', bucket, object?.key],
     queryFn: () => getObjectMetadata({ data: { bucket, key: object.key } }),
     enabled: !!object,
   })
+
+  const isImage = React.useMemo(() => {
+    if (!object?.key) return false
+    const isImageContentType = metadata?.contentType?.startsWith('image/')
+    const isImageExtension = /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(object.key)
+    return isImageContentType || isImageExtension
+  }, [object?.key, metadata?.contentType])
 
   const { data: imageUrl } = useQuery({
     queryKey: ['image-preview', bucket, object?.key],
@@ -41,10 +49,8 @@ export function MetadataPanel({ bucket, object, onClose }: MetadataPanelProps) {
       const result = await getDownloadUrl({ data: { bucket, key: object.key } })
       return result.url
     },
-    enabled: !!object && !!metadata?.contentType?.startsWith('image/'),
+    enabled: !!object && isImage,
   })
-
-  const isImage = metadata?.contentType?.startsWith('image/')
 
   const handleCopyPath = () => {
     if (!object?.key) return
@@ -78,17 +84,21 @@ export function MetadataPanel({ bucket, object, onClose }: MetadataPanelProps) {
                     Preview
                   </h3>
                   <div 
-                    className="relative rounded-lg overflow-hidden border flex items-center justify-center bg-muted/30"
-                    style={{
-                      backgroundImage: `repeating-linear-gradient(45deg, #e5e5e5 25%, transparent 25%, transparent 75%, #e5e5e5 75%, #e5e5e5), repeating-linear-gradient(45deg, #e5e5e5 25%, #e5e5e5 75%, transparent 75%, transparent)`,
-                      backgroundPosition: '0 0, 10px 10px',
-                      backgroundSize: '20px 20px'
-                    }}
+                    className="relative rounded-lg overflow-hidden border flex items-center justify-center bg-muted/10 group cursor-pointer active:scale-[0.99] transition-transform"
+                    onClick={() => onPreview(object)}
                   >
+                     <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" style={{
+                        backgroundImage: `repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%)`,
+                        backgroundSize: '10px 10px'
+                     }} />
+
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium z-20 backdrop-blur-xs">
+                        Click to expand
+                    </div>
                     <img 
                       src={imageUrl} 
                       alt={object?.key?.split('/').pop() || 'Preview'}
-                      className="w-full h-auto aspect-square object-contain"
+                      className="w-full h-auto aspect-square object-contain relative z-10"
                     />
                   </div>
                 </section>

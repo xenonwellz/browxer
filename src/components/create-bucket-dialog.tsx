@@ -25,25 +25,7 @@ import {
 } from '@/components/ui/select'
 import { createBucket } from '@/routes/browser/-bucket-management.server'
 
-const AWS_REGIONS = [
-  { value: 'us-east-1', label: 'US East (N. Virginia)' },
-  { value: 'us-east-2', label: 'US East (Ohio)' },
-  { value: 'us-west-1', label: 'US West (N. California)' },
-  { value: 'us-west-2', label: 'US West (Oregon)' },
-  { value: 'eu-west-1', label: 'EU (Ireland)' },
-  { value: 'eu-west-2', label: 'EU (London)' },
-  { value: 'eu-west-3', label: 'EU (Paris)' },
-  { value: 'eu-central-1', label: 'EU (Frankfurt)' },
-  { value: 'eu-north-1', label: 'EU (Stockholm)' },
-  { value: 'ap-south-1', label: 'Asia Pacific (Mumbai)' },
-  { value: 'ap-southeast-1', label: 'Asia Pacific (Singapore)' },
-  { value: 'ap-southeast-2', label: 'Asia Pacific (Sydney)' },
-  { value: 'ap-northeast-1', label: 'Asia Pacific (Tokyo)' },
-  { value: 'ap-northeast-2', label: 'Asia Pacific (Seoul)' },
-  { value: 'ap-northeast-3', label: 'Asia Pacific (Osaka)' },
-  { value: 'sa-east-1', label: 'South America (São Paulo)' },
-  { value: 'ca-central-1', label: 'Canada (Central)' },
-]
+import { REGIONS } from '@/lib/constants'
 
 // S3 bucket naming rules validation
 function validateBucketName(name: string): string | null {
@@ -70,6 +52,7 @@ export function CreateBucketDialog() {
   const [open, setOpen] = React.useState(false)
   const [bucketName, setBucketName] = React.useState('')
   const [region, setRegion] = React.useState('us-east-1')
+  const [customRegion, setCustomRegion] = React.useState('')
   const [error, setError] = React.useState<string | null>(null)
 
   const queryClient = useQueryClient()
@@ -80,7 +63,13 @@ export function CreateBucketDialog() {
       if (validationError) {
         throw new Error(validationError)
       }
-      return createBucket({ data: { bucketName, region } })
+      
+      const finalRegion = region === 'custom' ? customRegion : region
+      if (region === 'custom' && !finalRegion) {
+        throw new Error("Custom region is required")
+      }
+
+      return createBucket({ data: { bucketName, region: finalRegion } })
     },
     onSuccess: () => {
       toast.success(`Bucket "${bucketName}" created successfully`)
@@ -88,6 +77,7 @@ export function CreateBucketDialog() {
       setOpen(false)
       setBucketName('')
       setRegion('us-east-1')
+      setCustomRegion('')
       setError(null)
     },
     onError: (err: Error) => {
@@ -151,13 +141,23 @@ export function CreateBucketDialog() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {AWS_REGIONS.map((r) => (
+                  {REGIONS.map((r) => (
                     <SelectItem key={r.value} value={r.value}>
                       {r.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
+              {region === 'custom' && (
+                  <div className="mt-2">
+                    <Input
+                      placeholder="Enter custom region"
+                      value={customRegion}
+                      onChange={(e) => setCustomRegion(e.target.value)}
+                      required
+                    />
+                  </div>
+                )}
             </div>
           </div>
 
