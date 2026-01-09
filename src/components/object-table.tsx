@@ -23,8 +23,13 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
+import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -80,6 +85,9 @@ export function ObjectTable({
   const [newName, setNewName] = React.useState('')
   const [isActionLoading, setIsActionLoading] = React.useState(false)
 
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [itemsPerPage] = React.useState(10)
+
   const filteredFolders = folders.filter((f) =>
     f.toLowerCase().includes(search.toLowerCase()),
   )
@@ -87,6 +95,17 @@ export function ObjectTable({
   const filteredObjects = objects.filter((o) =>
     o.key.toLowerCase().includes(search.toLowerCase()),
   )
+
+  const allItems = [
+    ...filteredFolders.map((f) => ({ type: 'folder', data: f })),
+    ...filteredObjects.map((o) => ({ type: 'object', data: o })),
+  ]
+
+  const totalItems = allItems.length
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+  
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const paginatedItems = allItems.slice(startIndex, startIndex + itemsPerPage)
 
   const parentPrefix =
     prefix.split('/').filter(Boolean).slice(0, -1).join('/') +
@@ -149,6 +168,11 @@ export function ObjectTable({
     }
   }
 
+  // Reset page when search changes
+  React.useEffect(() => {
+    setCurrentPage(1)
+  }, [search, prefix])
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-4">
@@ -163,129 +187,135 @@ export function ObjectTable({
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary">
-            {filteredFolders.length + filteredObjects.length} items
+            {totalItems} items
           </Badge>
         </div>
       </div>
 
-      <div className="rounded-md border bg-card">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[400px]">Name</TableHead>
-              <TableHead>Size</TableHead>
-              <TableHead>Last Modified</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {prefix && (
+      <Card className="divide-y divide-border/50">
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={4}>
-                  <Link
-                    to="/browser/$bucket"
-                    params={{ bucket }}
-                    search={{ prefix: parentPrefix }}
-                    className="flex items-center gap-2 text-sm font-medium hover:text-primary"
-                  >
-                    <ArrowUp className="h-4 w-4" />
-                    ..
-                  </Link>
-                </TableCell>
+                <TableHead className="w-[400px]">Name</TableHead>
+                <TableHead>Size</TableHead>
+                <TableHead>Last Modified</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
-            )}
-
-            {isLoading ? (
-              Array.from({ length: 5 }).map((_, i) => (
-                <TableRow key={i}>
-                  <TableCell>
-                    <div className="h-4 w-[200px] bg-muted animate-pulse rounded" />
-                  </TableCell>
-                  <TableCell>
-                    <div className="h-4 w-[60px] bg-muted animate-pulse rounded" />
-                  </TableCell>
-                  <TableCell>
-                    <div className="h-4 w-[120px] bg-muted animate-pulse rounded" />
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="h-8 w-8 ml-auto bg-muted animate-pulse rounded" />
+            </TableHeader>
+            <TableBody>
+              {prefix && currentPage === 1 && (
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Link
+                      to="/browser/$bucket"
+                      params={{ bucket }}
+                      search={{ prefix: parentPrefix }}
+                      className="flex items-center gap-2 text-sm font-medium hover:text-primary"
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                      ..
+                    </Link>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <>
-                {filteredFolders.map((folder) => (
-                  <TableRow key={folder}>
-                    <TableCell>
-                      <Link
-                        to="/browser/$bucket"
-                        params={{ bucket }}
-                        search={{ prefix: folder }}
-                        className="flex items-center gap-2 font-medium hover:text-primary"
-                      >
-                        <Folder className="h-4 w-4 text-blue-500 fill-blue-500" />
-                        {folder.split('/').filter(Boolean).pop()}/
-                      </Link>
+              )}
+
+              {isLoading ? (
+                Array.from({ length: 10 }).map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell className="h-12 py-0">
+                      <div className="h-4 w-[200px] bg-muted animate-pulse rounded" />
                     </TableCell>
-                    <TableCell className="text-muted-foreground">-</TableCell>
-                    <TableCell className="text-muted-foreground">-</TableCell>
-                    <TableCell className="text-right">
-                      {/* Folder actions could go here, like delete folder */}
+                    <TableCell className="h-12 py-0">
+                      <div className="h-4 w-[60px] bg-muted animate-pulse rounded" />
+                    </TableCell>
+                    <TableCell className="h-12 py-0">
+                      <div className="h-4 w-[120px] bg-muted animate-pulse rounded" />
+                    </TableCell>
+                    <TableCell className="h-12 py-0 text-right">
+                      <div className="h-8 w-8 ml-auto bg-muted animate-pulse rounded" />
                     </TableCell>
                   </TableRow>
-                ))}
+                ))
+              ) : (
+                <>
+                  {paginatedItems.map((item) => {
+                    if (item.type === 'folder') {
+                      const folder = item.data as string
+                      return (
+                        <TableRow key={folder} className="cursor-pointer hover:bg-foreground/3 transition-colors">
+                          <TableCell className="h-12 py-0" colSpan={4}>
+                            <Link
+                              to="/browser/$bucket"
+                              params={{ bucket }}
+                              search={{ prefix: folder }}
+                              className="flex items-center gap-2 font-medium hover:text-primary"
+                            >
+                              <Folder className="h-4 w-4 text-primary fill-primary shrink-0" />
+                              <span className="truncate block max-w-[300px]">{folder.split('/').filter(Boolean).pop()}/</span>
+                              <span className="ml-auto text-muted-foreground text-sm">-</span>
+                              <span className="text-muted-foreground text-sm min-w-[120px]">-</span>
+                              <div className="h-8 w-8" />
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    }
 
-                {filteredObjects.map((obj) => (
-                  <TableRow key={obj.key}>
-                    <TableCell>
-                      <div className="flex items-center gap-2 font-medium">
-                        <File className="h-4 w-4 text-muted-foreground" />
-                        {obj.key.split('/').pop()}
-                      </div>
-                    </TableCell>
-                    <TableCell>{formatBytes(obj.size)}</TableCell>
-                    <TableCell>
-                      {format(new Date(obj.lastModified), 'MMM d, yyyy HH:mm')}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger
-                          render={<Button variant="ghost" size="icon" />}
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => onSelectObject(obj)}>
-                            <Info className="mr-2 h-4 w-4" /> View Metadata
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDownload(obj)}>
-                            <Download className="mr-2 h-4 w-4" /> Download
-                          </DropdownMenuItem>
+                    const obj = item.data
+                    return (
+                      <TableRow key={obj.key}>
+                        <TableCell className="h-12 py-0">
+                          <div className="flex items-center gap-2 font-medium max-w-[300px]">
+                            <File className="h-4 w-4 text-muted-foreground shrink-0" />
+                            <span className="truncate block">{obj.key.split('/').pop()}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="h-12 py-0">{formatBytes(obj.size)}</TableCell>
+                        <TableCell className="h-12 py-0">
+                          {format(new Date(obj.lastModified), 'MMM d, yyyy HH:mm')}
+                        </TableCell>
+                        <TableCell className="h-12 py-0 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger
+                              render={<Button variant="ghost" size="icon" className="h-8 w-8" />}
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuGroup>
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuItem onClick={() => onSelectObject(obj)}>
+                                  <Info className="mr-2 h-4 w-4" /> View Metadata
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleDownload(obj)}>
+                                  <Download className="mr-2 h-4 w-4" /> Download
+                                </DropdownMenuItem>
 
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem
-                            onClick={() => {
-                              setRenamingObject(obj)
-                              setNewName(obj.key.split('/').pop() || '')
-                            }}
-                          >
-                            <Edit3 className="mr-2 h-4 w-4" /> Rename
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="text-destructive"
-                            onClick={() => setDeletingObject(obj)}
-                          >
-                            <Trash2 className="mr-2 h-4 w-4" /> Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    setRenamingObject(obj)
+                                    setNewName(obj.key.split('/').pop() || '')
+                                  }}
+                                >
+                                  <Edit3 className="mr-2 h-4 w-4" /> Rename
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                  className="text-destructive"
+                                  onClick={() => setDeletingObject(obj)}
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
 
-                {filteredFolders.length === 0 &&
-                  filteredObjects.length === 0 && (
+                  {totalItems === 0 && (
                     <TableRow>
                       <TableCell
                         colSpan={4}
@@ -295,11 +325,41 @@ export function ObjectTable({
                       </TableCell>
                     </TableRow>
                   )}
-              </>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+                </>
+              )}
+            </TableBody>
+          </Table>
+        </CardContent>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between p-4 bg-muted/5">
+            <p className="text-sm text-muted-foreground">
+              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems} items
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <div className="text-sm font-medium">
+                Page {currentPage} of {totalPages}
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        )}
+      </Card>
 
       {/* Delete Confirmation */}
       <AlertDialog

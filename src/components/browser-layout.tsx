@@ -1,16 +1,28 @@
 import { Outlet } from '@tanstack/react-router'
-import { LayoutDashboard, LogOut, Menu } from 'lucide-react'
+import { LogOut, Menu } from 'lucide-react'
 import { BucketSidebar } from './bucket-sidebar'
+import { ThemeSelector } from './theme-selector'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 export function BrowserLayout() {
   const { logout } = useAuth()
 
   return (
     <div className="flex h-screen w-full flex-col overflow-hidden">
-      <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-6 shrink-0">
+      <header className="flex h-18 items-center gap-4 border-b bg-muted/40 px-6 shrink-0">
         <Sheet>
           <SheetTrigger
             render={
@@ -25,24 +37,44 @@ export function BrowserLayout() {
           </SheetContent>
         </Sheet>
 
-        <div className="flex items-center gap-2 font-semibold">
-          <LayoutDashboard className="h-6 w-6 text-primary" />
-          <span className="text-xl tracking-tight hidden sm:inline-block">
-            S3 Brows3r
+        <div className="flex items-center gap-2">
+          {/* Logo */}
+          <span className="font-logo text-3xl font-bold tracking-tighter select-none">
+            BROW<span className="text-primary">S3</span>R
           </span>
         </div>
 
         <div className="flex-1" />
-
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => logout()}
-          className="gap-2 text-muted-foreground hover:text-foreground"
-        >
-          <LogOut className="h-4 w-4" />
-          <span className="hidden sm:inline">Logout</span>
-        </Button>
+        
+        <div className="flex items-center gap-2">
+          <ThemeSelector />
+          <AlertDialog>
+            <AlertDialogTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 border-primary/20 text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span className="hidden sm:inline">Logout</span>
+                </Button>
+              }
+            />
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to log out of your session?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => logout()}>Logout</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">

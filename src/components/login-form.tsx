@@ -70,7 +70,7 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto divide-y divide-border/50 shadow-xl ring-1 ring-border/5 bg-card/95 backdrop-blur-sm">
       <CardHeader>
         <CardTitle className="text-2xl">Login to S3 Browser</CardTitle>
         <CardDescription>
@@ -152,7 +152,7 @@ export function LoginForm() {
             />
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="bg-muted/30">
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Connect

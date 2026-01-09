@@ -1,6 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { LoginForm } from '@/components/login-form'
 import { getSession } from '@/routes/-login.server'
+import { ThemeSelector } from '@/components/theme-selector'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: async () => {
@@ -14,7 +15,10 @@ export const Route = createFileRoute('/login')({
 
 function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
+    <div className="relative flex min-h-screen items-center justify-center bg-muted/20 p-4">
+      <div className="absolute top-4 right-4">
+        <ThemeSelector />
+      </div>
       <LoginForm />
     </div>
   )
