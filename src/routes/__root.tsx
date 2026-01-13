@@ -21,7 +21,8 @@ export const Route = createRootRoute({
       },
       {
         name: 'description',
-        content: 'A high-performance, open-source S3 file explorer designed for speed, security, and pure elegance. Direct client-to-S3 architecture.',
+        content:
+          'A high-performance, open-source S3 file explorer designed for speed, security, and pure elegance. Direct client-to-S3 architecture.',
       },
       {
         property: 'og:title',
@@ -29,7 +30,8 @@ export const Route = createRootRoute({
       },
       {
         property: 'og:description',
-        content: 'Management of S3 buckets with pure elegance. Direct client-to-S3 connection with no middle-man.',
+        content:
+          'Management of S3 buckets with pure elegance. Direct client-to-S3 connection with no middle-man.',
       },
       {
         property: 'og:image',
@@ -49,7 +51,8 @@ export const Route = createRootRoute({
       },
       {
         name: 'twitter:description',
-        content: 'High-performance, open-source S3 explorer. Pure elegance, zero middle-man.',
+        content:
+          'High-performance, open-source S3 explorer. Pure elegance, zero middle-man.',
       },
       {
         name: 'twitter:image',

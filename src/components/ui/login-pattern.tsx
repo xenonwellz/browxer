@@ -58,11 +58,10 @@ export function LoginPattern() {
         <motion.g
           filter="url(#blur-lg)"
           animate={{
-            x: [0, 20, 0],
-            y: [0, -10, 0],
+            opacity: [0.5, 0.7, 0.5],
           }}
           transition={{
-            duration: 20,
+            duration: 10,
             repeat: Infinity,
             ease: 'linear',
           }}
@@ -74,78 +73,42 @@ export function LoginPattern() {
         <motion.g
           filter="url(#blur-md)"
           animate={{
-            scale: [1, 1.05, 1],
-            rotate: [0, 360],
+            opacity: [0.4, 0.6, 0.4],
           }}
           transition={{
-            scale: { duration: 15, repeat: Infinity, ease: 'easeInOut' },
-            rotate: { duration: 60, repeat: Infinity, ease: 'linear' },
+            duration: 12,
+            repeat: Infinity,
+            ease: 'linear',
           }}
           style={{ originX: '500px', originY: '500px' }}
         >
-          <circle
-            cx="850"
-            cy="150"
-            r="100"
-            fill="var(--chart-3)"
-            fillOpacity="0.3"
-          />
-          <circle
-            cx="150"
-            cy="850"
-            r="100"
-            fill="var(--chart-4)"
-            fillOpacity="0.3"
-          />
           <circle cx="500" cy="500" r="120" fill="url(#g3)" />
         </motion.g>
 
         <motion.g
           filter="url(#blur-sm)"
           animate={{
-            opacity: [0.6, 1, 0.6],
+            opacity: [0.3, 0.5, 0.3],
           }}
           transition={{
-            duration: 10,
+            duration: 8,
             repeat: Infinity,
             ease: 'easeInOut',
           }}
         >
-          <motion.circle
+          <circle
             cx="400"
             cy="300"
             r="60"
             fill="var(--primary)"
             fillOpacity="0.2"
-            animate={{ cx: [400, 420, 400] }}
-            transition={{ duration: 12, repeat: Infinity }}
           />
-          <motion.circle
+          <circle
             cx="600"
             cy="700"
             r="60"
             fill="var(--accent)"
             fillOpacity="0.2"
-            animate={{ cy: [700, 720, 700] }}
-            transition={{ duration: 14, repeat: Infinity }}
-          />
-          <motion.circle
-            cx="300"
-            cy="600"
-            r="50"
-            fill="var(--secondary)"
-            fillOpacity="0.2"
-            animate={{ r: [50, 60, 50] }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
-          <motion.circle
-            cx="700"
-            cy="400"
-            r="50"
-            fill="var(--muted-foreground)"
-            fillOpacity="0.2"
-            animate={{ cx: [700, 680, 700] }}
-            transition={{ duration: 16, repeat: Infinity }}
           />
         </motion.g>
 
@@ -154,7 +117,7 @@ export function LoginPattern() {
           width="100%"
           height="100%"
           fill="url(#grid)"
-          opacity="0.4"
+          opacity="0.6"
           className="text-foreground"
         />
 
@@ -164,20 +127,20 @@ export function LoginPattern() {
           fill="none"
           stroke="url(#g1)"
           strokeWidth="2"
-          opacity="0.2"
+          opacity="0.3"
           transform="scale(1.2) rotate(-15 500 500)"
           animate={{ x: [-50, 50, -50] }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
         />
         <motion.path
           d="M 0 500 Q 500 800 1000 500 T 2000 500"
           fill="none"
           stroke="url(#g2)"
           strokeWidth="2"
-          opacity="0.2"
+          opacity="0.3"
           transform="scale(1.0) rotate(15 500 500)"
           animate={{ x: [50, -50, 50] }}
-          transition={{ duration: 35, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
         />
         <motion.path
           d="M -200 500 Q 500 1000 1200 500"

@@ -15,11 +15,11 @@ import {
   Upload,
   Zap,
 } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { LoginPattern } from '@/components/ui/login-pattern'
 import { ThemeSelector } from '@/components/theme-selector'
-import { motion } from 'framer-motion'
 
 export function LandingPage() {
   const navigate = useNavigate()
@@ -37,18 +37,18 @@ export function LandingPage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.04,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 8 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
+        duration: 0.4,
         ease: [0.16, 1, 0.3, 1] as any,
       },
     },
@@ -68,10 +68,7 @@ export function LandingPage() {
           <div className="flex items-center gap-2">
             <span className="font-logo text-2xl font-bold tracking-tighter select-none">
               BROW
-              <span className="text-primary">
-                S3
-              </span>
-              R
+              <span className="text-primary">S3</span>R
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
@@ -91,7 +88,7 @@ export function LandingPage() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-24 lg:pt-80 lg:pb-64 overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-40">
+        <div className="absolute inset-0 z-0">
           <LoginPattern />
         </div>
 
@@ -157,9 +154,13 @@ export function LandingPage() {
               <div className="flex items-center gap-2 px-4 py-2 border-b border-white/5 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                 <Terminal className="h-3 w-3" /> Quick Docker Install
               </div>
-              <div className="p-6 font-mono text-sm text-left flex items-center justify-between group">
-                <code className="text-zinc-100">
-                  docker run -p 3000:3000 xenonwellz/brows3r
+              <div className="p-6 font-mono text-xs sm:text-sm text-left flex items-center justify-between group">
+                <code className="flex flex-wrap gap-x-2">
+                  <span className="text-blue-400">docker</span>
+                  <span className="text-emerald-400">run</span>
+                  <span className="text-orange-400">-p</span>
+                  <span className="text-yellow-200">3000:3000</span>
+                  <span className="text-zinc-100">xenonwellz/brows3r</span>
                 </code>
                 <button
                   onClick={() =>
@@ -179,8 +180,8 @@ export function LandingPage() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-20 lg:py-64 bg-muted/40 px-4 sm:px-6 lg:px-8 relative border-y border-border/50">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(var(--primary-rgb),0.05),transparent)]"></div>
+      <section className="py-20 lg:py-64 bg-background px-4 sm:px-6 lg:px-8 relative border-t border-border/40">
+        <div className="absolute inset-x-0 top-0 h-24 bg-linear-to-b from-border/5 via-transparent to-transparent"></div>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16 lg:mb-24 px-4">
             <h2 className="text-3xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/50">
@@ -246,8 +247,8 @@ export function LandingPage() {
       </section>
 
       {/* OutRay Integration Section */}
-      <section className="py-20 lg:py-64 relative overflow-hidden bg-muted/20 border-y border-border">
-        <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent"></div>
+      <section className="py-20 lg:py-64 relative overflow-hidden bg-background border-t border-border/40">
+        <div className="absolute inset-x-0 top-0 h-24 bg-linear-to-b from-border/5 via-transparent to-transparent"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--color-primary),transparent)] opacity-10"></div>
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
@@ -258,9 +259,7 @@ export function LandingPage() {
               </div>
               <h2 className="text-3xl font-bold tracking-tight sm:text-6xl mb-6 lg:mb-8 leading-[1.2] lg:leading-[1.1]">
                 Tunnel your local S3 with{' '}
-                <span className="text-primary">
-                  OutRay
-                </span>
+                <span className="text-primary">OutRay</span>
               </h2>
               <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-8 lg:mb-10 font-medium">
                 Developing locally with MinIO or LocalStack? Don't mess with
@@ -412,10 +411,7 @@ export function LandingPage() {
             <div className="flex flex-col gap-6">
               <span className="font-logo text-3xl sm:text-4xl font-bold tracking-tighter select-none">
                 BROW
-                <span className="text-primary">
-                  S3
-                </span>
-                R
+                <span className="text-primary">S3</span>R
               </span>
               <p className="text-muted-foreground/60 text-sm sm:text-base max-w-xs leading-relaxed font-medium">
                 The ultimate open-source S3 browser for developers who care
