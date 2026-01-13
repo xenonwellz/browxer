@@ -5,6 +5,11 @@ import { getSession } from '@/routes/-login.server'
 import { ThemeSelector } from '@/components/theme-selector'
 
 export const Route = createFileRoute('/login')({
+  validateSearch: (search: Record<string, unknown>): { endpoint?: string } => {
+    return {
+      endpoint: search.endpoint as string || undefined,
+    }
+  },
   beforeLoad: async () => {
     const session = await getSession()
     if (session.isAuthenticated) {

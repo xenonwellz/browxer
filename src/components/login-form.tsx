@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -21,6 +21,7 @@ import { REGIONS } from '@/lib/constants'
 
 export function LoginForm() {
   const navigate = useNavigate()
+  const search = useSearch({ from: '/login' })
   const [isLoading, setIsLoading] = React.useState(false)
   const [showSecret, setShowSecret] = React.useState(false)
 
@@ -36,7 +37,7 @@ export function LoginForm() {
       secretAccessKey: '',
       region: 'us-east-1',
       customRegion: '',
-      endpoint: '',
+      endpoint: search.endpoint || '',
     },
   })
 
