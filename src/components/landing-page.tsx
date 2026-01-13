@@ -97,7 +97,7 @@ export function LandingPage() {
             <Button
               size="lg"
               variant="outline"
-              className="h-12 sm:h-14 px-5 sm:px-10 text-sm sm:text-lg border-border hover:bg-accent transition-all duration-300 rounded-full backdrop-blur-sm shadow-xl shrink-0"
+              className="h-12 sm:h-14 px-5 sm:px-10 text-sm sm:text-lg border-border hover:bg-muted transition-all duration-300 rounded-full backdrop-blur-sm shadow-xl shrink-0"
               render={
                 <a
                   href="https://github.com/xenonwellz/brows3r"
