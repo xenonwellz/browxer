@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
@@ -16,13 +17,57 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'BROW-S3-R | Premium S3 Browser',
+      },
+      {
+        name: 'description',
+        content: 'A high-performance, open-source S3 file explorer designed for speed, security, and pure elegance. Direct client-to-S3 architecture.',
+      },
+      {
+        property: 'og:title',
+        content: 'BROW-S3-R | Premium S3 Browser',
+      },
+      {
+        property: 'og:description',
+        content: 'Management of S3 buckets with pure elegance. Direct client-to-S3 connection with no middle-man.',
+      },
+      {
+        property: 'og:image',
+        content: '/og-image.png',
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: 'BROW-S3-R | Premium S3 Browser',
+      },
+      {
+        name: 'twitter:description',
+        content: 'High-performance, open-source S3 explorer. Pure elegance, zero middle-man.',
+      },
+      {
+        name: 'twitter:image',
+        content: '/og-image.png',
+      },
+      {
+        name: 'twitter:site',
+        content: '@xenonellz',
       },
     ],
     links: [
       {
         rel: 'stylesheet',
         href: appCss,
+      },
+      {
+        rel: 'icon',
+        href: '/favicon.ico',
       },
     ],
   }),
