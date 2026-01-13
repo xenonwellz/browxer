@@ -40,17 +40,19 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <ThemeProvider>
           {children}
           <Toaster richColors position="top-center" />
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
+          {process.env.NODE_ENV === 'development' && (
+            <TanStackDevtools
+              config={{
+                position: 'bottom-right',
+              }}
+              plugins={[
+                {
+                  name: 'Tanstack Router',
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+              ]}
+            />
+          )}
         </ThemeProvider>
         <Scripts />
       </body>

@@ -1,5 +1,6 @@
 {
   "name": "brows3r",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +9,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint",
-    "format": "prettier",
+    "format": "prettier  --write .",
     "check": "prettier --write . && eslint --fix"
   },
   "dependencies": {
