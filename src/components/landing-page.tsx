@@ -27,6 +27,11 @@ export function LandingPage() {
 
   const handleUseTunnel = (e: React.FormEvent) => {
     e.preventDefault()
+    if (tunnelUrl) {
+      navigate({ to: '/login', search: { endpoint: tunnelUrl } })
+    }
+  }
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -44,7 +49,7 @@ export function LandingPage() {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as any,
       },
     },
   }
@@ -90,20 +95,35 @@ export function LandingPage() {
           <LoginPattern />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left sm:text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-8xl mb-6 bg-clip-text text-transparent bg-linear-to-b from-zinc-950 via-zinc-900 to-zinc-700 dark:from-white dark:via-white dark:to-white/40 leading-[1.1] sm:leading-[1.05] drop-shadow-sm">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left sm:text-center"
+        >
+          <motion.h1
+            variants={itemVariants}
+            className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-8xl mb-6 bg-clip-text text-transparent bg-linear-to-b from-zinc-950 via-zinc-900 to-zinc-700 dark:from-white dark:via-white dark:to-white/40 leading-[1.1] sm:leading-[1.05] drop-shadow-sm"
+          >
             Management of S3 buckets
             <br className="hidden sm:block" />
             with pure elegance
-          </h1>
+          </motion.h1>
 
-          <p className="max-w-2xl text-lg sm:text-xl text-muted-foreground mb-12 sm:mb-14 leading-relaxed font-medium sm:mx-auto">
+          <motion.p
+            variants={itemVariants}
+            className="max-max-2xl text-lg sm:text-xl text-muted-foreground mb-12 sm:mb-14 leading-relaxed font-medium sm:mx-auto"
+          >
             BROW<span className="text-primary/90">S3</span>R is a
             high-performance, open-source S3 file explorer designed for speed,
             security, and developer productivity.
-          </p>
+          </motion.p>
 
-          <div className="flex flex-row items-center justify-start sm:justify-center gap-3 sm:gap-6">
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-row items-center justify-start sm:justify-center gap-3 sm:gap-6"
+          >
             <Button
               size="lg"
               className="h-12 sm:h-14 px-5 sm:px-10 text-sm sm:text-lg shadow-xl hover:bg-primary/90 transition-all duration-300 rounded-full shrink-0"
@@ -127,15 +147,18 @@ export function LandingPage() {
                 </a>
               }
             />
-          </div>
+          </motion.div>
 
-          <div className="mt-20 mx-auto max-w-2xl">
-            <div className="rounded-2xl border border-border bg-card/40 backdrop-blur-sm p-1 overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-2 border-b border-border text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+          <motion.div
+            variants={itemVariants}
+            className="mt-20 mx-auto max-w-2xl"
+          >
+            <div className="rounded-2xl border border-white/10 bg-black backdrop-blur-sm p-1 overflow-hidden transition-colors shadow-2xl">
+              <div className="flex items-center gap-2 px-4 py-2 border-b border-white/5 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                 <Terminal className="h-3 w-3" /> Quick Docker Install
               </div>
               <div className="p-6 font-mono text-sm text-left flex items-center justify-between group">
-                <code className="text-primary">
+                <code className="text-zinc-100">
                   docker run -p 3000:3000 xenonwellz/brows3r
                 </code>
                 <button
@@ -144,19 +167,20 @@ export function LandingPage() {
                       'docker run -p 3000:3000 xenonwellz/brows3r',
                     )
                   }
-                  className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-accent rounded-lg text-muted-foreground"
+                  className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-white/5 rounded-lg text-zinc-400"
                   title="Copy to clipboard"
                 >
                   <Box className="h-4 w-4" />
                 </button>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Features Grid */}
-      <section className="py-20 lg:py-64 bg-transparent px-4 sm:px-6 lg:px-8 relative">
+      <section className="py-20 lg:py-64 bg-muted/40 px-4 sm:px-6 lg:px-8 relative border-y border-border/50">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(var(--primary-rgb),0.05),transparent)]"></div>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16 lg:mb-24 px-4">
             <h2 className="text-3xl font-bold tracking-tight sm:text-6xl mb-6 bg-clip-text text-transparent bg-linear-to-b from-foreground to-foreground/50">
@@ -168,38 +192,56 @@ export function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={<Layers className="h-6 w-6 text-primary" />}
-              title="Multi-region Support"
-              description="Connect to any S3-compatible service across any region with zero friction."
-            />
-            <FeatureCard
-              icon={<Upload className="h-6 w-6 text-accent" />}
-              title="Direct Uploads"
-              description="Upload files directly to your buckets with high-speed multipart support."
-            />
-            <FeatureCard
-              icon={<Eye className="h-6 w-6 text-emerald-400" />}
-              title="Instant Previews"
-              description="Quickly view images, documents, and logs without downloading them first."
-            />
-            <FeatureCard
-              icon={<Shield className="h-6 w-6 text-blue-400" />}
-              title="Secure by Design"
-              description="Your credentials never leave your browser. Connect directly to your storage provider."
-            />
-            <FeatureCard
-              icon={<Search className="h-6 w-6 text-orange-400" />}
-              title="Advanced Search"
-              description="Find objects instantly with prefix-based filtering and structured metadata views."
-            />
-            <FeatureCard
-              icon={<Settings className="h-6 w-6 text-violet-400" />}
-              title="Custom Endpoints"
-              description="Fully compatible with MinIO, LocalStack, and other S3-like storage services."
-            />
-          </div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            <motion.div variants={itemVariants}>
+              <FeatureCard
+                icon={<Layers className="h-6 w-6 text-primary" />}
+                title="Multi-region Support"
+                description="Connect to any S3-compatible service across any region with zero friction."
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <FeatureCard
+                icon={<Upload className="h-6 w-6 text-accent" />}
+                title="Direct Uploads"
+                description="Upload files directly to your buckets with high-speed multipart support."
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <FeatureCard
+                icon={<Eye className="h-6 w-6 text-emerald-400" />}
+                title="Instant Previews"
+                description="Quickly view images, documents, and logs without downloading them first."
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <FeatureCard
+                icon={<Shield className="h-6 w-6 text-blue-400" />}
+                title="Secure by Design"
+                description="Your credentials never leave your browser. Connect directly to your storage provider."
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <FeatureCard
+                icon={<Search className="h-6 w-6 text-orange-400" />}
+                title="Advanced Search"
+                description="Find objects instantly with prefix-based filtering and structured metadata views."
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <FeatureCard
+                icon={<Settings className="h-6 w-6 text-violet-400" />}
+                title="Custom Endpoints"
+                description="Fully compatible with MinIO, LocalStack, and other S3-like storage services."
+              />
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
