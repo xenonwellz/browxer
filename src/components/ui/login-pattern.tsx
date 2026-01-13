@@ -1,6 +1,6 @@
 export function LoginPattern() {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-zinc-950">
+    <div className="relative h-full w-full overflow-hidden bg-background">
       <svg
         className="absolute inset-0 h-full w-full"
         xmlns="http://www.w3.org/2000/svg"
@@ -42,15 +42,15 @@ export function LoginPattern() {
             <path
               d="M 40 0 L 0 0 0 40"
               fill="none"
-              stroke="white"
+              stroke="currentColor"
               strokeWidth="0.5"
               opacity="0.1"
             />
           </pattern>
         </defs>
 
-        {/* Dark background */}
-        <rect width="100%" height="100%" fill="#09090b" />
+        {/* Dynamic background background */}
+        <rect width="100%" height="100%" className="fill-background" />
 
         {/* Abstract shapes with varying blurs and sizes */}
         <g filter="url(#blur-lg)">
@@ -185,7 +185,13 @@ export function LoginPattern() {
         </g>
 
         {/* Grid overlay */}
-        <rect width="100%" height="100%" fill="url(#grid)" opacity="0.4" />
+        <rect
+          width="100%"
+          height="100%"
+          fill="url(#grid)"
+          opacity="0.4"
+          className="text-foreground"
+        />
 
         {/* Decorative Lines - reduced scale */}
         <path
@@ -238,7 +244,7 @@ export function LoginPattern() {
           />
         </path>
       </svg>
-      <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-transparent to-transparent opacity-80" />
+      <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent opacity-80" />
     </div>
   )
 }
