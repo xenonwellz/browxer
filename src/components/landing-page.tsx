@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { LoginPattern } from '@/components/ui/login-pattern'
 import { ThemeSelector } from '@/components/theme-selector'
+import { motion } from 'framer-motion'
 
 export function LandingPage() {
   const navigate = useNavigate()
@@ -26,9 +27,26 @@ export function LandingPage() {
 
   const handleUseTunnel = (e: React.FormEvent) => {
     e.preventDefault()
-    if (tunnelUrl) {
-      navigate({ to: '/login', search: { endpoint: tunnelUrl } })
-    }
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
   }
 
   return (
