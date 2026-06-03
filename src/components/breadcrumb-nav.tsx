@@ -25,9 +25,7 @@ export function BreadcrumbNav({ bucket, prefix }: BreadcrumbNavProps) {
     <Breadcrumb className="mb-4">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink
-            render={<Link to="/browser/$bucket" params={{ bucket }} />}
-          >
+          <BreadcrumbLink render={<Link to="/browser/$bucket" params={{ bucket }} />}>
             <Home className="h-4 w-4 mr-2" />
             {bucket}
           </BreadcrumbLink>

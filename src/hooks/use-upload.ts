@@ -36,14 +36,13 @@ export function useUpload(bucket: string, prefix: string) {
               }
             }
 
-            xhr.onerror = () =>
-              reject(new Error(`Network error during upload of ${file.name}`))
+            xhr.onerror = () => reject(new Error(`Network error during upload of ${file.name}`))
             xhr.send(file)
           })
         } catch (error: any) {
-          throw new Error(
-            `Failed to get upload URL for ${file.name}: ${error.message}`,
-          )
+          throw new Error(`Failed to get upload URL for ${file.name}: ${error.message}`, {
+            cause: error,
+          })
         }
       }),
     )

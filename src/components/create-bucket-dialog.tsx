@@ -32,19 +32,15 @@ function validateBucketName(name: string): string | null {
   if (!name) return 'Bucket name is required'
   if (name.length < 3) return 'Bucket name must be at least 3 characters'
   if (name.length > 63) return 'Bucket name must be 63 characters or less'
-  if (!/^[a-z0-9]/.test(name))
-    return 'Bucket name must start with a lowercase letter or number'
-  if (!/[a-z0-9]$/.test(name))
-    return 'Bucket name must end with a lowercase letter or number'
+  if (!/^[a-z0-9]/.test(name)) return 'Bucket name must start with a lowercase letter or number'
+  if (!/[a-z0-9]$/.test(name)) return 'Bucket name must end with a lowercase letter or number'
   if (!/^[a-z0-9.-]+$/.test(name))
     return 'Bucket name can only contain lowercase letters, numbers, hyphens, and periods'
   if (/\.\./.test(name)) return 'Bucket name cannot contain consecutive periods'
   if (/^(\d{1,3}\.){3}\d{1,3}$/.test(name))
     return 'Bucket name cannot be formatted as an IP address'
-  if (name.startsWith('xn--'))
-    return 'Bucket name cannot start with "xn--" prefix'
-  if (name.endsWith('-s3alias'))
-    return 'Bucket name cannot end with "-s3alias" suffix'
+  if (name.startsWith('xn--')) return 'Bucket name cannot start with "xn--" prefix'
+  if (name.endsWith('-s3alias')) return 'Bucket name cannot end with "-s3alias" suffix'
   return null
 }
 
@@ -162,14 +158,8 @@ export function CreateBucketDialog() {
           </div>
 
           <DialogFooter>
-            <Button
-              type="submit"
-              disabled={mutation.isPending || !bucketName}
-              className="gap-2"
-            >
-              {mutation.isPending && (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              )}
+            <Button type="submit" disabled={mutation.isPending || !bucketName} className="gap-2">
+              {mutation.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
               Create Bucket
             </Button>
           </DialogFooter>

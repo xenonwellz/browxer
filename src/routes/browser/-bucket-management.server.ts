@@ -31,7 +31,7 @@ export const createBucket = createServerFn({ method: 'POST' })
       return { success: true, bucketName }
     } catch (error: any) {
       console.error('CreateBucket failed:', error)
-      throw new Error(error.message || 'Failed to create bucket')
+      throw new Error(error.message || 'Failed to create bucket', { cause: error })
     }
   })
 
@@ -43,9 +43,7 @@ export const getBucketPolicy = createServerFn({ method: 'GET' })
     const s3 = getS3Client(context.credentials)
 
     try {
-      const response = await s3.send(
-        new GetBucketPolicyCommand({ Bucket: bucket }),
-      )
+      const response = await s3.send(new GetBucketPolicyCommand({ Bucket: bucket }))
       return {
         policy: response.Policy || null,
         hasPolicy: !!response.Policy,
@@ -56,7 +54,7 @@ export const getBucketPolicy = createServerFn({ method: 'GET' })
         return { policy: null, hasPolicy: false }
       }
       console.error('GetBucketPolicy failed:', error)
-      throw new Error(error.message || 'Failed to get bucket policy')
+      throw new Error(error.message || 'Failed to get bucket policy', { cause: error })
     }
   })
 
@@ -80,10 +78,10 @@ export const setBucketPolicy = createServerFn({ method: 'POST' })
       return { success: true }
     } catch (error: any) {
       if (error instanceof SyntaxError) {
-        throw new Error('Invalid JSON policy')
+        throw new Error('Invalid JSON policy', { cause: error })
       }
       console.error('SetBucketPolicy failed:', error)
-      throw new Error(error.message || 'Failed to set bucket policy')
+      throw new Error(error.message || 'Failed to set bucket policy', { cause: error })
     }
   })
 
@@ -103,7 +101,7 @@ export const deleteBucketPolicy = createServerFn({ method: 'POST' })
         return { success: true }
       }
       console.error('DeleteBucketPolicy failed:', error)
-      throw new Error(error.message || 'Failed to delete bucket policy')
+      throw new Error(error.message || 'Failed to delete bucket policy', { cause: error })
     }
   })
 

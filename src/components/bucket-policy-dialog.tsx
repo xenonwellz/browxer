@@ -31,11 +31,7 @@ interface BucketPolicyDialogProps {
   onOpenChange: (open: boolean) => void
 }
 
-export function BucketPolicyDialog({
-  bucket,
-  open,
-  onOpenChange,
-}: BucketPolicyDialogProps) {
+export function BucketPolicyDialog({ bucket, open, onOpenChange }: BucketPolicyDialogProps) {
   const [mode, setMode] = React.useState<PolicyMode>('private')
   const [customPolicy, setCustomPolicy] = React.useState('')
   const [jsonError, setJsonError] = React.useState<string | null>(null)
@@ -61,10 +57,7 @@ export function BucketPolicyDialog({
         // Check if it matches the public read policy strictly (ignoring whitespace)
         try {
           const normalizedIncoming = policy.replace(/\s/g, '')
-          const normalizedPublic = generatePublicReadPolicy(bucket).replace(
-            /\s/g,
-            '',
-          )
+          const normalizedPublic = generatePublicReadPolicy(bucket).replace(/\s/g, '')
 
           setMode(normalizedIncoming === normalizedPublic ? 'public' : 'custom')
         } catch {
@@ -129,9 +122,7 @@ export function BucketPolicyDialog({
     }
   }
 
-  const handleCustomPolicyChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const handleCustomPolicyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value
     setCustomPolicy(value)
     validateJson(value)
@@ -185,22 +176,17 @@ export function BucketPolicyDialog({
                     onClick={() => handleModeChange(option.value)}
                     className={cn(
                       'flex flex-col items-center gap-1 rounded-xl border p-3 text-center transition-colors hover:bg-foreground/3',
-                      mode === option.value &&
-                        'border-primary bg-primary/5 ring-1 ring-primary',
+                      mode === option.value && 'border-primary bg-primary/5 ring-1 ring-primary',
                     )}
                   >
                     <option.icon
                       className={cn(
                         'h-5 w-5',
-                        mode === option.value
-                          ? 'text-primary'
-                          : 'text-muted-foreground',
+                        mode === option.value ? 'text-primary' : 'text-muted-foreground',
                       )}
                     />
                     <span className="text-sm font-medium">{option.label}</span>
-                    <span className="text-xs text-muted-foreground">
-                      {option.description}
-                    </span>
+                    <span className="text-xs text-muted-foreground">{option.description}</span>
                   </button>
                 ))}
               </div>
@@ -214,11 +200,7 @@ export function BucketPolicyDialog({
                 </Label>
                 <Textarea
                   id="custom-policy"
-                  value={
-                    mode === 'public'
-                      ? generatePublicReadPolicy(bucket)
-                      : customPolicy
-                  }
+                  value={mode === 'public' ? generatePublicReadPolicy(bucket) : customPolicy}
                   onChange={handleCustomPolicyChange}
                   readOnly={mode === 'public'}
                   placeholder='{"Version": "2012-10-17", "Statement": [...]}'
@@ -235,8 +217,7 @@ export function BucketPolicyDialog({
 
             {mode === 'private' && policyData?.hasPolicy && (
               <p className="text-sm text-muted-foreground bg-muted/50 rounded-xl p-3">
-                The existing bucket policy will be removed. Only the bucket
-                owner will have access.
+                The existing bucket policy will be removed. Only the bucket owner will have access.
               </p>
             )}
           </div>
@@ -253,15 +234,11 @@ export function BucketPolicyDialog({
           <Button
             onClick={() => saveMutation.mutate()}
             disabled={
-              saveMutation.isPending ||
-              isLoadingPolicy ||
-              (mode === 'custom' && !!jsonError)
+              saveMutation.isPending || isLoadingPolicy || (mode === 'custom' && !!jsonError)
             }
             className="gap-2"
           >
-            {saveMutation.isPending && (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            )}
+            {saveMutation.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
             Save Policy
           </Button>
         </DialogFooter>

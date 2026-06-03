@@ -21,11 +21,7 @@ export function LoginPattern() {
           </filter>
           <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.4" />
-            <stop
-              offset="100%"
-              stopColor="var(--secondary)"
-              stopOpacity="0.4"
-            />
+            <stop offset="100%" stopColor="var(--secondary)" stopOpacity="0.4" />
           </linearGradient>
           <linearGradient id="g2" x1="100%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.4" />
@@ -35,12 +31,7 @@ export function LoginPattern() {
             <stop offset="0%" stopColor="var(--chart-1)" stopOpacity="0.3" />
             <stop offset="100%" stopColor="var(--chart-2)" stopOpacity="0.3" />
           </linearGradient>
-          <pattern
-            id="grid"
-            width="40"
-            height="40"
-            patternUnits="userSpaceOnUse"
-          >
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
             <path
               d="M 40 0 L 0 0 0 40"
               fill="none"
@@ -96,20 +87,8 @@ export function LoginPattern() {
             ease: 'easeInOut',
           }}
         >
-          <circle
-            cx="400"
-            cy="300"
-            r="60"
-            fill="var(--primary)"
-            fillOpacity="0.2"
-          />
-          <circle
-            cx="600"
-            cy="700"
-            r="60"
-            fill="var(--accent)"
-            fillOpacity="0.2"
-          />
+          <circle cx="400" cy="300" r="60" fill="var(--primary)" fillOpacity="0.2" />
+          <circle cx="600" cy="700" r="60" fill="var(--accent)" fillOpacity="0.2" />
         </motion.g>
 
         {/* Grid overlay */}

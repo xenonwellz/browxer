@@ -1,13 +1,5 @@
 import * as React from 'react'
-import {
-  Calendar,
-  Copy,
-  FileText,
-  HardDrive,
-  Hash,
-  Loader2,
-  Type,
-} from 'lucide-react'
+import { Calendar, Copy, FileText, HardDrive, Hash, Loader2, Type } from 'lucide-react'
 import { format } from 'date-fns'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -20,10 +12,7 @@ import {
 } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { cn, formatBytes } from '@/lib/utils'
-import {
-  getDownloadUrl,
-  getObjectMetadata,
-} from '@/routes/browser/-$bucket.server'
+import { getDownloadUrl, getObjectMetadata } from '@/routes/browser/-$bucket.server'
 
 interface MetadataPanelProps {
   bucket: string
@@ -32,12 +21,7 @@ interface MetadataPanelProps {
   onPreview: (object: any) => void
 }
 
-export function MetadataPanel({
-  bucket,
-  object,
-  onClose,
-  onPreview,
-}: MetadataPanelProps) {
+export function MetadataPanel({ bucket, object, onClose, onPreview }: MetadataPanelProps) {
   const { data: metadata, isLoading } = useQuery({
     queryKey: ['metadata', bucket, object?.key],
     queryFn: () => getObjectMetadata({ data: { bucket, key: object.key } }),
@@ -47,9 +31,7 @@ export function MetadataPanel({
   const isImage = React.useMemo(() => {
     if (!object?.key) return false
     const isImageContentType = metadata?.contentType?.startsWith('image/')
-    const isImageExtension = /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(
-      object.key,
-    )
+    const isImageExtension = /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(object.key)
     return isImageContentType || isImageExtension
   }, [object?.key, metadata?.contentType])
 
@@ -172,26 +154,25 @@ export function MetadataPanel({
                 </div>
               </section>
 
-              {metadata.metadata &&
-                Object.keys(metadata.metadata).length > 0 && (
-                  <section className="p-6 space-y-4">
-                    <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                      User Metadata
-                    </h3>
-                    <div className="grid gap-3">
-                      {Object.entries(metadata.metadata).map(([key, value]) => (
-                        <div key={key} className="flex flex-col gap-1">
-                          <span className="text-[10px] font-bold text-muted-foreground uppercase">
-                            {key}
-                          </span>
-                          <span className="text-sm border-b border-border/20 pb-2 break-all">
-                            {String(value)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                )}
+              {metadata.metadata && Object.keys(metadata.metadata).length > 0 && (
+                <section className="p-6 space-y-4">
+                  <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                    User Metadata
+                  </h3>
+                  <div className="grid gap-3">
+                    {Object.entries(metadata.metadata).map(([key, value]) => (
+                      <div key={key} className="flex flex-col gap-1">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">
+                          {key}
+                        </span>
+                        <span className="text-sm border-b border-border/20 pb-2 break-all">
+                          {String(value)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               <div className="p-6 pt-4 pb-10">
                 <Button variant="outline" className="w-full" onClick={onClose}>
@@ -201,18 +182,11 @@ export function MetadataPanel({
             </div>
           ) : (
             <div className="p-10 text-center space-y-2">
-              <div className="text-destructive font-medium">
-                Failed to load metadata
-              </div>
+              <div className="text-destructive font-medium">Failed to load metadata</div>
               <p className="text-xs text-muted-foreground">
                 The object might be unavailable or you lack permissions.
               </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onClose()}
-                className="mt-4"
-              >
+              <Button variant="outline" size="sm" onClick={() => onClose()} className="mt-4">
                 Close
               </Button>
             </div>
@@ -247,17 +221,10 @@ function MetadataItem({
     >
       <div className="flex items-center gap-3 shrink-0">
         <div className="text-muted-foreground/60">{icon}</div>
-        <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">
-          {label}
-        </span>
+        <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">{label}</span>
       </div>
       <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
-        <span
-          className={cn(
-            'text-sm text-foreground text-right truncate',
-            className,
-          )}
-        >
+        <span className={cn('text-sm text-foreground text-right truncate', className)}>
           {value}
         </span>
         <Copy className="h-3 w-3 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0 absolute right-2 bg-primary rounded p-0.5" />

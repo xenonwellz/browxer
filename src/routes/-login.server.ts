@@ -1,9 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
-import {
-  deleteCookie,
-  getCookie,
-  setCookie,
-} from '@tanstack/react-start/server'
+import { deleteCookie, getCookie, setCookie } from '@tanstack/react-start/server'
 import { ListBucketsCommand, S3Client } from '@aws-sdk/client-s3'
 import type { Credentials } from '@/lib/crypto.server'
 import { encryptSession } from '@/lib/crypto.server'
@@ -45,9 +41,7 @@ export const loginUser = createServerFn({ method: 'POST' })
       return { success: true }
     } catch (error: any) {
       console.error('Login failed:', error)
-      throw new Error(
-        error.message || 'Invalid AWS credentials or configuration',
-      )
+      throw new Error(error.message || 'Invalid AWS credentials or configuration', { cause: error })
     }
   })
 

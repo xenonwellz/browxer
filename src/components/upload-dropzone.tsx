@@ -12,11 +12,7 @@ interface UploadDropzoneProps {
   onComplete: () => void
 }
 
-export function UploadDropzone({
-  bucket,
-  prefix,
-  onComplete,
-}: UploadDropzoneProps) {
+export function UploadDropzone({ bucket, prefix, onComplete }: UploadDropzoneProps) {
   const [files, setFiles] = React.useState<Array<File>>([])
   const [isDragging, setIsDragging] = React.useState(false)
   const { uploadFiles, progresses, isUploading } = useUpload(bucket, prefix)
@@ -67,9 +63,7 @@ export function UploadDropzone({
         </div>
         <div className="space-y-1">
           <p className="text-lg font-medium">Drag & drop files here</p>
-          <p className="text-sm text-muted-foreground">
-            or click to browse from your computer
-          </p>
+          <p className="text-sm text-muted-foreground">or click to browse from your computer</p>
         </div>
         <Input
           type="file"
@@ -83,13 +77,9 @@ export function UploadDropzone({
         <Card>
           <CardContent className="p-4 space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold text-sm">
-                Selected Files ({files.length})
-              </h4>
+              <h4 className="font-semibold text-sm">Selected Files ({files.length})</h4>
               <Button size="sm" onClick={startUpload} disabled={isUploading}>
-                {isUploading && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
+                {isUploading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Upload All
               </Button>
             </div>
@@ -103,12 +93,8 @@ export function UploadDropzone({
                   <div className="flex items-center gap-3 min-w-0">
                     <File className="h-4 w-4 shrink-0 text-muted-foreground" />
                     <div className="min-w-0">
-                      <p className="text-sm font-medium truncate">
-                        {file.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatBytes(file.size)}
-                      </p>
+                      <p className="text-sm font-medium truncate">{file.name}</p>
+                      <p className="text-xs text-muted-foreground">{formatBytes(file.size)}</p>
                     </div>
                   </div>
                   <Button

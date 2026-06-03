@@ -1,9 +1,4 @@
-import {
-  createCipheriv,
-  createDecipheriv,
-  createHmac,
-  randomBytes,
-} from 'node:crypto'
+import { createCipheriv, createDecipheriv, createHmac, randomBytes } from 'node:crypto'
 
 export interface Credentials {
   accessKeyId: string
@@ -12,10 +7,7 @@ export interface Credentials {
   endpoint?: string
 }
 
-export function encryptSession(
-  credentials: Credentials,
-  secret: string,
-): string {
+export function encryptSession(credentials: Credentials, secret: string): string {
   // Ensure secret is 32 bytes for aes-256-gcm
   const key = createHmac('sha256', secret).digest()
   const iv = randomBytes(16)
@@ -40,10 +32,7 @@ export function encryptSession(
   return Buffer.from(payloadStr + ':' + signature).toString('base64')
 }
 
-export function decryptSession(
-  encryptedBase64: string,
-  secret: string,
-): Credentials {
+export function decryptSession(encryptedBase64: string, secret: string): Credentials {
   const decoded = Buffer.from(encryptedBase64, 'base64').toString()
   const lastColonIndex = decoded.lastIndexOf(':')
 
@@ -64,11 +53,7 @@ export function decryptSession(
   const payload = JSON.parse(payloadStr)
   const key = createHmac('sha256', secret).digest()
 
-  const decipher = createDecipheriv(
-    'aes-256-gcm',
-    key,
-    Buffer.from(payload.iv, 'hex'),
-  )
+  const decipher = createDecipheriv('aes-256-gcm', key, Buffer.from(payload.iv, 'hex'))
   decipher.setAuthTag(Buffer.from(payload.tag, 'hex'))
 
   let decrypted = decipher.update(payload.data, 'hex', 'utf8')

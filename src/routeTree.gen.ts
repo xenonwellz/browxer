@@ -67,13 +67,7 @@ export interface FileRouteTypes {
   fullPaths: '/' | '/browser' | '/login' | '/browser/$bucket' | '/browser/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/login' | '/browser/$bucket' | '/browser'
-  id:
-    | '__root__'
-    | '/'
-    | '/browser'
-    | '/login'
-    | '/browser/$bucket'
-    | '/browser/'
+  id: '__root__' | '/' | '/browser' | '/login' | '/browser/$bucket' | '/browser/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,8 +126,7 @@ const BrowserRouteChildren: BrowserRouteChildren = {
   BrowserIndexRoute: BrowserIndexRoute,
 }
 
-const BrowserRouteWithChildren =
-  BrowserRoute._addFileChildren(BrowserRouteChildren)
+const BrowserRouteWithChildren = BrowserRoute._addFileChildren(BrowserRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,

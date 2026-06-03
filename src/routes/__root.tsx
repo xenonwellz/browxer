@@ -6,6 +6,9 @@ import appCss from '../styles.css?url'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '@/components/theme-provider'
 
+const umamiUrl = import.meta.env.VITE_UMAMI_URL as string | undefined
+const umamiWebsiteId = import.meta.env.VITE_UMAMI_WEBSITE_ID as string | undefined
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -17,7 +20,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'BROW-S3-R | Premium S3 Browser',
+        title: 'BROWXER | Premium S3 Browser',
       },
       {
         name: 'description',
@@ -26,7 +29,7 @@ export const Route = createRootRoute({
       },
       {
         property: 'og:title',
-        content: 'BROW-S3-R | Premium S3 Browser',
+        content: 'BROWXER | Premium S3 Browser',
       },
       {
         property: 'og:description',
@@ -47,12 +50,11 @@ export const Route = createRootRoute({
       },
       {
         name: 'twitter:title',
-        content: 'BROW-S3-R | Premium S3 Browser',
+        content: 'BROWXER | Premium S3 Browser',
       },
       {
         name: 'twitter:description',
-        content:
-          'High-performance, open-source S3 explorer. Pure elegance, zero middle-man.',
+        content: 'High-performance, open-source S3 explorer. Pure elegance, zero middle-man.',
       },
       {
         name: 'twitter:image',
@@ -83,6 +85,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {umamiUrl && umamiWebsiteId && (
+          <script defer src={umamiUrl} data-website-id={umamiWebsiteId} />
+        )}
       </head>
       <body>
         <ThemeProvider>

@@ -1,20 +1,7 @@
 'use client'
 
-import {
-  createContext,
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-import type {
-  Dispatch,
-  PropsWithChildren,
-  ReactNode,
-  SetStateAction,
-} from 'react'
+import { createContext, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import type { Dispatch, PropsWithChildren, ReactNode, SetStateAction } from 'react'
 
 // --- Custom Logic: Color Presets & Composite Themes ---
 
@@ -106,7 +93,7 @@ export interface ThemeProviderProps extends PropsWithChildren {
   nonce?: string | undefined
 }
 
-const colorSchemes = ['light', 'dark']
+const colorSchemes = new Set(['light', 'dark'])
 const MEDIA = '(prefers-color-scheme: dark)'
 const isServer = typeof window === 'undefined'
 const ThemeContext = createContext<UseThemeProps | undefined>(undefined)
@@ -151,40 +138,30 @@ const Theme = ({
   children,
   nonce,
 }: ThemeProviderProps) => {
-  const [theme, setThemeState] = useState(() =>
-    getTheme(storageKey, defaultTheme),
-  )
+  const [theme, setThemeState] = useState(() => getTheme(storageKey, defaultTheme))
 
-  const applyClassAttribute = useCallback(
-    (name: string | undefined, attrValues: Array<string>) => {
-      const d = document.documentElement
+  const applyClassAttribute = useCallback((name: string | undefined, attrValues: Array<string>) => {
+    const d = document.documentElement
 
-      // FIX: Handle space-separated classes safely
-      // Flatten all potential values to ensure clean removal
-      const classesToRemove = attrValues
-        .flatMap((v) => v.split(/\s+/))
-        .filter(Boolean)
-      d.classList.remove(...classesToRemove)
+    // FIX: Handle space-separated classes safely
+    // Flatten all potential values to ensure clean removal
+    const classesToRemove = attrValues.flatMap((v) => v.split(/\s+/)).filter(Boolean)
+    d.classList.remove(...classesToRemove)
 
-      if (name) {
-        const classesToAdd = name.split(/\s+/).filter(Boolean)
-        d.classList.add(...classesToAdd)
-      }
-    },
-    [],
-  )
+    if (name) {
+      const classesToAdd = name.split(/\s+/).filter(Boolean)
+      d.classList.add(...classesToAdd)
+    }
+  }, [])
 
-  const applyDataAttribute = useCallback(
-    (attr: string, name: string | undefined) => {
-      const d = document.documentElement
-      if (name) {
-        d.setAttribute(attr, name)
-      } else {
-        d.removeAttribute(attr)
-      }
-    },
-    [],
-  )
+  const applyDataAttribute = useCallback((attr: string, name: string | undefined) => {
+    const d = document.documentElement
+    if (name) {
+      d.setAttribute(attr, name)
+    } else {
+      d.removeAttribute(attr)
+    }
+  }, [])
 
   const applyAttributesToDOM = useCallback(
     (resolved: string) => {
@@ -208,8 +185,8 @@ const Theme = ({
       if (!enableColorScheme) {
         return
       }
-      const fallback = colorSchemes.includes(defaultTheme) ? defaultTheme : null
-      const colorScheme = colorSchemes.includes(resolved) ? resolved : fallback
+      const fallback = colorSchemes.has(defaultTheme) ? defaultTheme : null
+      const colorScheme = colorSchemes.has(resolved) ? resolved : fallback
       document.documentElement.style.colorScheme = colorScheme || ''
     },
     [enableColorScheme, defaultTheme],
@@ -221,8 +198,7 @@ const Theme = ({
         return
       }
 
-      const resolved =
-        nextTheme === 'system' && enableSystem ? getSystemTheme() : nextTheme
+      const resolved = nextTheme === 'system' && enableSystem ? getSystemTheme() : nextTheme
 
       const enable = disableTransitionOnChange ? disableAnimation() : null
 
@@ -231,18 +207,12 @@ const Theme = ({
 
       enable?.()
     },
-    [
-      enableSystem,
-      disableTransitionOnChange,
-      applyAttributesToDOM,
-      applyColorScheme,
-    ],
+    [enableSystem, disableTransitionOnChange, applyAttributesToDOM, applyColorScheme],
   )
 
   const setTheme = useCallback(
     (newValue: SetStateAction<string>) => {
-      const newTheme =
-        typeof newValue === 'function' ? newValue(theme ?? '') : newValue
+      const newTheme = typeof newValue === 'function' ? newValue(theme ?? '') : newValue
       setThemeState(newTheme)
 
       try {
@@ -459,7 +429,7 @@ export const script = (
   enableColorScheme: boolean,
 ) => {
   const el = document.documentElement
-  const systemThemes = ['light', 'dark']
+  const systemThemes = new Set(['light', 'dark'])
   const attributes = Array.isArray(attribute) ? attribute : [attribute]
   const attrValues = value ? Object.values(value) : themes
 
@@ -509,22 +479,18 @@ export const script = (
       return
     }
 
-    const fallback = systemThemes.includes(defaultTheme) ? defaultTheme : null
-    const colorScheme = systemThemes.includes(theme) ? theme : fallback
+    const fallback = systemThemes.has(defaultTheme) ? defaultTheme : null
+    const colorScheme = systemThemes.has(theme) ? theme : fallback
     el.style.colorScheme = colorScheme || ''
   }
 
   function resolveSystemTheme() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
 
   if (forcedTheme) {
     const resolvedForcedTheme =
-      forcedTheme === 'system' && enableSystem
-        ? resolveSystemTheme()
-        : forcedTheme
+      forcedTheme === 'system' && enableSystem ? resolveSystemTheme() : forcedTheme
     updateDOM(resolvedForcedTheme)
   } else {
     try {

@@ -1,5 +1,5 @@
 # Configuration
-DOCKER_IMAGE = xenonwellz/brows3r
+DOCKER_IMAGE = xenonwellz/browxer
 TYPE ?= patch
 BUILD ?= 0
 

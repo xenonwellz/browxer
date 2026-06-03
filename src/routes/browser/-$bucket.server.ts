@@ -1,20 +1,12 @@
 import { createServerFn } from '@tanstack/react-start'
-import {
-  CopyObjectCommand,
-  DeleteObjectCommand,
-  ListObjectsV2Command,
-} from '@aws-sdk/client-s3'
+import { CopyObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 import { getS3Client } from '@/lib/s3-client.server'
 import { authMiddleware } from '@/server/middleware'
 
 export const listObjects = createServerFn({ method: 'GET' })
   .inputValidator(
-    (data: {
-      bucket: string
-      prefix?: string
-      continuationToken?: string
-      maxKeys?: number
-    }) => data,
+    (data: { bucket: string; prefix?: string; continuationToken?: string; maxKeys?: number }) =>
+      data,
   )
   .middleware([authMiddleware])
   .handler(async ({ data, context }: { data: any; context: any }) => {
@@ -48,7 +40,7 @@ export const listObjects = createServerFn({ method: 'GET' })
       }
     } catch (error: any) {
       console.error('ListObjects failed:', error)
-      throw new Error(error.message || 'Failed to list objects')
+      throw new Error(error.message || 'Failed to list objects', { cause: error })
     }
   })
 
@@ -63,9 +55,7 @@ export const getObjectMetadata = createServerFn({ method: 'GET' })
       // We can use head object for metadata but standard ListObjects already has some.
       // If we need detailed metadata, we call HeadObject
       const { HeadObjectCommand } = await import('@aws-sdk/client-s3')
-      const response = await s3.send(
-        new HeadObjectCommand({ Bucket: bucket, Key: key }),
-      )
+      const response = await s3.send(new HeadObjectCommand({ Bucket: bucket, Key: key }))
       return {
         contentType: response.ContentType,
         lastModified: response.LastModified,
@@ -75,7 +65,7 @@ export const getObjectMetadata = createServerFn({ method: 'GET' })
         metadata: response.Metadata,
       }
     } catch (error: any) {
-      throw new Error(error.message || 'Failed to get object metadata')
+      throw new Error(error.message || 'Failed to get object metadata', { cause: error })
     }
   })
 
@@ -90,14 +80,12 @@ export const deleteObject = createServerFn({ method: 'POST' })
       await s3.send(new DeleteObjectCommand({ Bucket: bucket, Key: key }))
       return { success: true }
     } catch (error: any) {
-      throw new Error(error.message || 'Failed to delete object')
+      throw new Error(error.message || 'Failed to delete object', { cause: error })
     }
   })
 
 export const renameObject = createServerFn({ method: 'POST' })
-  .inputValidator(
-    (data: { bucket: string; oldKey: string; newKey: string }) => data,
-  )
+  .inputValidator((data: { bucket: string; oldKey: string; newKey: string }) => data)
   .middleware([authMiddleware])
   .handler(async ({ data, context }: { data: any; context: any }) => {
     const { bucket, oldKey, newKey } = data
@@ -115,7 +103,7 @@ export const renameObject = createServerFn({ method: 'POST' })
       await s3.send(new DeleteObjectCommand({ Bucket: bucket, Key: oldKey }))
       return { success: true }
     } catch (error: any) {
-      throw new Error(error.message || 'Failed to rename object')
+      throw new Error(error.message || 'Failed to rename object', { cause: error })
     }
   })
 
@@ -138,15 +126,13 @@ export const getDownloadUrl = createServerFn({ method: 'POST' })
       const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
       return { url }
     } catch (error: any) {
-      throw new Error(error.message || 'Failed to generate download URL')
+      throw new Error(error.message || 'Failed to generate download URL', { cause: error })
     }
   })
 
 export const getUploadPresignedUrl = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .inputValidator(
-    (data: { bucket: string; key: string; contentType?: string }) => data,
-  )
+  .inputValidator((data: { bucket: string; key: string; contentType?: string }) => data)
   .handler(async ({ data, context }) => {
     const { bucket, key, contentType } = data
     const { getSignedUrl } = await import('@aws-sdk/s3-request-presigner')
@@ -163,6 +149,6 @@ export const getUploadPresignedUrl = createServerFn({ method: 'POST' })
       const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
       return { url }
     } catch (error: any) {
-      throw new Error(error.message || 'Failed to generate upload URL')
+      throw new Error(error.message || 'Failed to generate upload URL', { cause: error })
     }
   })

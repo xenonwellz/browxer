@@ -21,9 +21,7 @@ import { BucketPolicyDialog } from '@/components/bucket-policy-dialog'
 export function BucketSidebar({ className }: { className?: string }) {
   const { bucket: activeBucket } = useParams({ strict: false })
   const [search, setSearch] = React.useState('')
-  const [policyDialogBucket, setPolicyDialogBucket] = React.useState<
-    string | null
-  >(null)
+  const [policyDialogBucket, setPolicyDialogBucket] = React.useState<string | null>(null)
 
   const {
     data: buckets,
@@ -38,16 +36,12 @@ export function BucketSidebar({ className }: { className?: string }) {
 
   const filteredBuckets = React.useMemo(() => {
     if (!buckets) return []
-    return buckets.filter((b: any) =>
-      b.Name.toLowerCase().includes(search.toLowerCase()),
-    )
+    return buckets.filter((b: any) => b.Name.toLowerCase().includes(search.toLowerCase()))
   }, [buckets, search])
 
   return (
     <>
-      <div
-        className={cn('flex flex-col h-full border-r bg-muted/20', className)}
-      >
+      <div className={cn('flex flex-col h-full border-r bg-muted/20', className)}>
         <div className="p-4 border-b flex items-center justify-between">
           <h2 className="font-semibold flex items-center gap-2">
             <Database className="h-4 w-4" />
@@ -55,15 +49,8 @@ export function BucketSidebar({ className }: { className?: string }) {
           </h2>
           <div className="flex items-center gap-1">
             <CreateBucketDialog />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => refetch()}
-              disabled={isFetching}
-            >
-              <RefreshCw
-                className={cn('h-4 w-4', isFetching && 'animate-spin')}
-              />
+            <Button variant="ghost" size="icon" onClick={() => refetch()} disabled={isFetching}>
+              <RefreshCw className={cn('h-4 w-4', isFetching && 'animate-spin')} />
             </Button>
           </div>
         </div>
@@ -83,17 +70,11 @@ export function BucketSidebar({ className }: { className?: string }) {
         <ScrollArea className="flex-1">
           <div className="p-2 space-y-1">
             {isLoading ? (
-              Array.from({ length: 5 }).map((_, i) => (
-                <Skeleton key={i} className="h-10 w-full" />
-              ))
+              Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-10 w-full" />)
             ) : error ? (
-              <div className="p-4 text-sm text-destructive text-center">
-                Failed to load buckets
-              </div>
+              <div className="p-4 text-sm text-destructive text-center">Failed to load buckets</div>
             ) : filteredBuckets.length === 0 ? (
-              <div className="p-4 text-sm text-muted-foreground text-center">
-                No buckets found
-              </div>
+              <div className="p-4 text-sm text-muted-foreground text-center">No buckets found</div>
             ) : (
               filteredBuckets.map((bucket: any) => (
                 <div
@@ -133,9 +114,7 @@ export function BucketSidebar({ className }: { className?: string }) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuGroup>
-                        <DropdownMenuItem
-                          onClick={() => setPolicyDialogBucket(bucket.Name)}
-                        >
+                        <DropdownMenuItem onClick={() => setPolicyDialogBucket(bucket.Name)}>
                           <Shield className="h-4 w-4 mr-2" />
                           Manage Policy
                         </DropdownMenuItem>

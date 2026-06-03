@@ -12,6 +12,6 @@ export const listBuckets = createServerFn({ method: 'GET' })
       return response.Buckets || []
     } catch (error: any) {
       console.error('ListBuckets failed:', error)
-      throw new Error(error.message || 'Failed to list buckets')
+      throw new Error(error.message || 'Failed to list buckets', { cause: error })
     }
   })

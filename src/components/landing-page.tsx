@@ -67,8 +67,7 @@ export function LandingPage() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <span className="font-logo text-2xl font-bold tracking-tighter select-none">
-              BROW
-              <span className="text-primary">S3</span>R
+              BROWXER
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
@@ -112,8 +111,7 @@ export function LandingPage() {
             variants={itemVariants}
             className="max-max-2xl text-lg sm:text-xl text-muted-foreground mb-12 sm:mb-14 leading-relaxed font-medium sm:mx-auto"
           >
-            BROW<span className="text-primary/90">S3</span>R is a
-            high-performance, open-source S3 file explorer designed for speed,
+            BROWXER is a high-performance, open-source S3 file explorer designed for speed,
             security, and developer productivity.
           </motion.p>
 
@@ -126,8 +124,7 @@ export function LandingPage() {
               className="h-12 sm:h-14 px-5 sm:px-10 text-sm sm:text-lg shadow-xl hover:bg-primary/90 transition-all duration-300 rounded-full shrink-0"
               render={<Link to="/login" search={{ endpoint: undefined }} />}
             >
-              Open Browser{' '}
-              <ArrowRight className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+              Open Browser <ArrowRight className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
             <Button
               size="lg"
@@ -135,21 +132,17 @@ export function LandingPage() {
               className="h-12 sm:h-14 px-5 sm:px-10 text-sm sm:text-lg border-border hover:bg-muted transition-all duration-300 rounded-full backdrop-blur-sm shadow-xl shrink-0"
               render={
                 <a
-                  href="https://github.com/xenonwellz/brows3r"
+                  href="https://github.com/xenonwellz/browxer"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Github className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />{' '}
-                  GitHub
+                  <Github className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" /> GitHub
                 </a>
               }
             />
           </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="mt-20 mx-auto max-w-2xl"
-          >
+          <motion.div variants={itemVariants} className="mt-20 mx-auto max-w-2xl">
             <div className="rounded-2xl border border-white/10 bg-black backdrop-blur-sm p-1 overflow-hidden transition-colors shadow-2xl">
               <div className="flex items-center gap-2 px-4 py-2 border-b border-white/5 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                 <Terminal className="h-3 w-3" /> Quick Docker Install
@@ -160,13 +153,11 @@ export function LandingPage() {
                   <span className="text-emerald-400">run</span>
                   <span className="text-orange-400">-p</span>
                   <span className="text-yellow-200">3000:3000</span>
-                  <span className="text-zinc-100">xenonwellz/brows3r</span>
+                  <span className="text-zinc-100">xenonwellz/browxer</span>
                 </code>
                 <button
                   onClick={() =>
-                    navigator.clipboard.writeText(
-                      'docker run -p 3000:3000 xenonwellz/brows3r',
-                    )
+                    navigator.clipboard.writeText('docker run -p 3000:3000 xenonwellz/browxer')
                   }
                   className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-white/5 rounded-lg text-zinc-400"
                   title="Copy to clipboard"
@@ -188,8 +179,7 @@ export function LandingPage() {
               Built for elite workflows
             </h2>
             <p className="text-muted-foreground text-base sm:text-lg font-medium max-w-2xl mx-auto">
-              Stop fighting clunky consoles. Start browsing with speed and
-              precision.
+              Stop fighting clunky consoles. Start browsing with speed and precision.
             </p>
           </div>
 
@@ -258,14 +248,12 @@ export function LandingPage() {
                 Local Development
               </div>
               <h2 className="text-3xl font-bold tracking-tight sm:text-6xl mb-6 lg:mb-8 leading-[1.2] lg:leading-[1.1]">
-                Tunnel your local S3 with{' '}
-                <span className="text-primary">OutRay</span>
+                Tunnel your local S3 with <span className="text-primary">OutRay</span>
               </h2>
               <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-8 lg:mb-10 font-medium">
-                Developing locally with MinIO or LocalStack? Don't mess with
-                complex networking. Use <strong>OutRay</strong> to expose your
-                local storage via a secure tunnel and connect BROW
-                <span className="text-primary/90">S3</span>R instantly.
+                Developing locally with MinIO or LocalStack? Don't mess with complex networking. Use{' '}
+                <strong>OutRay</strong> to expose your local storage via a secure tunnel and connect
+                BROWXER instantly.
               </p>
 
               <ul className="space-y-4 lg:space-y-6 mb-10 lg:mb-12 text-left max-w-lg mx-auto lg:mx-0">
@@ -314,9 +302,7 @@ export function LandingPage() {
                 </div>
                 <div className="p-5 sm:p-10 font-mono text-xs sm:text-base leading-relaxed overflow-x-hidden">
                   <div className="flex gap-3 mb-2">
-                    <span className="text-emerald-500/90 font-bold">
-                      user@outray-cli
-                    </span>
+                    <span className="text-emerald-500/90 font-bold">user@outray-cli</span>
                     <span className="text-muted-foreground/40">➜</span>
                     <span className="text-foreground">~ outray 9000</span>
                   </div>
@@ -341,10 +327,7 @@ export function LandingPage() {
                     <p className="text-[10px] text-muted-foreground/60 uppercase tracking-[0.2em] font-black">
                       Quick Action
                     </p>
-                    <form
-                      onSubmit={handleUseTunnel}
-                      className="flex items-center gap-2"
-                    >
+                    <form onSubmit={handleUseTunnel} className="flex items-center gap-2">
                       <div className="relative flex-1 group">
                         <LinkIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
                         <Input
@@ -377,10 +360,8 @@ export function LandingPage() {
             Direct Client-to-S3 Architecture
           </h2>
           <p className="mx-auto max-w-3xl text-base sm:text-xl text-muted-foreground mb-16 lg:mb-20 leading-relaxed font-medium">
-            Your data stays exactly where it belongs. BROW
-            <span className="text-primary/90">S3</span>R acts as a powerful
-            interface connecting your browser directly to your S3 buckets.
-            Secure, private, and insanely fast.
+            Your data stays exactly where it belongs. BROWXER acts as a powerful interface
+            connecting your browser directly to your S3 buckets. Secure, private, and insanely fast.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-4xl mx-auto">
@@ -388,10 +369,7 @@ export function LandingPage() {
               icon={<Database className="h-10 w-10 text-foreground/80" />}
               label="AWS S3 SDK"
             />
-            <TechItem
-              icon={<Layers className="h-10 w-10 text-foreground/80" />}
-              label="TanStack"
-            />
+            <TechItem icon={<Layers className="h-10 w-10 text-foreground/80" />} label="TanStack" />
             <TechItem
               icon={<Shield className="h-10 w-10 text-foreground/80" />}
               label="E2E Secure"
@@ -410,12 +388,10 @@ export function LandingPage() {
           <div className="flex flex-col sm:flex-row *:sm:flex-1 justify-between items-start gap-12 sm:gap-16 w-full">
             <div className="flex flex-col gap-6">
               <span className="font-logo text-3xl sm:text-4xl font-bold tracking-tighter select-none">
-                BROW
-                <span className="text-primary">S3</span>R
+                BROWXER
               </span>
               <p className="text-muted-foreground/60 text-sm sm:text-base max-w-xs leading-relaxed font-medium">
-                The ultimate open-source S3 browser for developers who care
-                about speed and privacy.
+                The ultimate open-source S3 browser for developers who care about speed and privacy.
               </p>
             </div>
 
@@ -431,17 +407,13 @@ export function LandingPage() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground transition-all font-medium text-sm"
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-4 w-4 fill-current"
-                      aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
                     </svg>
                     X
                   </a>
                   <a
-                    href="https://github.com/xenonwellz/brows3r"
+                    href="https://github.com/xenonwellz/browxer"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground transition-all font-medium text-sm"
@@ -449,7 +421,7 @@ export function LandingPage() {
                     <Github className="h-4 w-4" /> Github
                   </a>
                   <a
-                    href="https://hub.docker.com/r/xenonwellz/brows3r"
+                    href="https://hub.docker.com/r/xenonwellz/browxer"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground transition-all font-medium text-sm"
@@ -481,7 +453,7 @@ export function LandingPage() {
           </div>
           <div className="mt-20 sm:mt-24 pt-10 border-t border-border flex flex-col items-start gap-6 text-center w-full">
             <p className="text-muted-foreground/30 text-[10px] font-bold tracking-[0.3em] uppercase text-center w-full">
-              © {new Date().getFullYear()} BROW-S3-R. All rights reserved.
+              © {new Date().getFullYear()} BROWXER. All rights reserved.
             </p>
           </div>
         </div>
@@ -519,13 +491,7 @@ function FeatureCard({
   )
 }
 
-function TechItem({
-  icon,
-  label,
-}: {
-  icon: React.ReactElement<any>
-  label: string
-}) {
+function TechItem({ icon, label }: { icon: React.ReactElement<any>; label: string }) {
   return (
     <div className="flex flex-col items-center gap-6 group">
       <div className="h-20 w-20 rounded-3xl bg-muted/20 border border-border flex items-center justify-center group-hover:bg-card group-hover:border-primary/20 transition-all duration-500 shadow-xl group-hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.1)] group-hover:scale-105">

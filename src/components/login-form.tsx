@@ -6,9 +6,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {} from // Card components removed
 
-'@/components/ui/card'
 import {
   Select,
   SelectContent,
@@ -55,9 +53,7 @@ export function LoginForm() {
       toast.success('Login successful')
       navigate({ to: '/browser' })
     } catch (error: any) {
-      toast.error(
-        error.message || 'Failed to login. Please check your credentials.',
-      )
+      toast.error(error.message || 'Failed to login. Please check your credentials.')
     } finally {
       setIsLoading(false)
     }
@@ -87,9 +83,7 @@ export function LoginForm() {
             })}
           />
           {errors.accessKeyId && (
-            <p className="text-sm text-destructive">
-              {errors.accessKeyId.message as string}
-            </p>
+            <p className="text-sm text-destructive">{errors.accessKeyId.message as string}</p>
           )}
         </div>
         <div className="space-y-2">
@@ -118,9 +112,7 @@ export function LoginForm() {
             </Button>
           </div>
           {errors.secretAccessKey && (
-            <p className="text-sm text-destructive">
-              {errors.secretAccessKey.message as string}
-            </p>
+            <p className="text-sm text-destructive">{errors.secretAccessKey.message as string}</p>
           )}
         </div>
         <div className="space-y-2">
@@ -159,11 +151,7 @@ export function LoginForm() {
         </div>
         <div className="space-y-2">
           <Label htmlFor="endpoint">Custom Endpoint (Optional)</Label>
-          <Input
-            id="endpoint"
-            placeholder="https://s3.example.com"
-            {...register('endpoint')}
-          />
+          <Input id="endpoint" placeholder="https://s3.example.com" {...register('endpoint')} />
         </div>
 
         <Button type="submit" className="w-full" disabled={isLoading}>

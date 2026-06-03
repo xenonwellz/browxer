@@ -24,11 +24,7 @@ export function BrowserLayout() {
     <div className="flex h-screen w-full flex-col overflow-hidden">
       <header className="flex h-18 items-center gap-4 border-b bg-muted/40 px-6 shrink-0">
         <Sheet>
-          <SheetTrigger
-            render={
-              <Button variant="ghost" size="icon" className="md:hidden" />
-            }
-          >
+          <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden" />}>
             <Menu className="h-5 w-5" />
             <span className="sr-only">Toggle Sidebar</span>
           </SheetTrigger>
@@ -70,9 +66,7 @@ export function BrowserLayout() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => logout()}>
-                  Logout
-                </AlertDialogAction>
+                <AlertDialogAction onClick={() => logout()}>Logout</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

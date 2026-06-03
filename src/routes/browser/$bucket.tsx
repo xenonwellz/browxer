@@ -73,10 +73,7 @@ function BucketPage() {
     if (!policyData?.hasPolicy || !policyData.policy) return 'Private'
     try {
       const normalizedIncoming = policyData.policy.replace(/\s/g, '')
-      const normalizedPublic = generatePublicReadPolicy(bucket).replace(
-        /\s/g,
-        '',
-      )
+      const normalizedPublic = generatePublicReadPolicy(bucket).replace(/\s/g, '')
 
       return normalizedIncoming === normalizedPublic ? 'Public' : 'Custom'
     } catch {
@@ -90,9 +87,7 @@ function BucketPage() {
     <div className="flex flex-col h-full space-y-4">
       <div className="flex items-center justify-between">
         <div className="min-w-0 flex-1 space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight truncate">
-            {bucket}
-          </h1>
+          <h1 className="text-2xl font-bold tracking-tight truncate">{bucket}</h1>
           <BreadcrumbNav bucket={bucket} prefix={prefix} />
           <div className="flex items-center gap-4 text-xs">
             <div className="flex items-center gap-2">
@@ -113,9 +108,7 @@ function BucketPage() {
             </div>
             {currentBucket?.CreationDate && (
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground font-medium">
-                  Created:
-                </span>
+                <span className="text-muted-foreground font-medium">Created:</span>
                 <Badge variant="outline" className="font-normal">
                   {format(new Date(currentBucket.CreationDate), 'MMM d, yyyy')}
                 </Badge>
@@ -125,15 +118,8 @@ function BucketPage() {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => refetch()}
-            disabled={isFetching}
-          >
-            <RefreshCw
-              className={cn('h-4 w-4 mr-2', isFetching && 'animate-spin')}
-            />
+          <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
+            <RefreshCw className={cn('h-4 w-4 mr-2', isFetching && 'animate-spin')} />
             Refresh
           </Button>
 
@@ -152,9 +138,7 @@ function BucketPage() {
                 <DialogTitle>Upload Files</DialogTitle>
                 <DialogDescription>
                   Upload files to the current folder:{' '}
-                  <code className="bg-muted px-1 rounded">
-                    {prefix || 'root'}
-                  </code>
+                  <code className="bg-muted px-1 rounded">{prefix || 'root'}</code>
                 </DialogDescription>
               </DialogHeader>
               <UploadDropzone

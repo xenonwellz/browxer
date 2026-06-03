@@ -85,13 +85,9 @@ export function ObjectTable({
   const [currentPage, setCurrentPage] = React.useState(1)
   const [itemsPerPage] = React.useState(10)
 
-  const filteredFolders = folders.filter((f) =>
-    f.toLowerCase().includes(search.toLowerCase()),
-  )
+  const filteredFolders = folders.filter((f) => f.toLowerCase().includes(search.toLowerCase()))
 
-  const filteredObjects = objects.filter((o) =>
-    o.key.toLowerCase().includes(search.toLowerCase()),
-  )
+  const filteredObjects = objects.filter((o) => o.key.toLowerCase().includes(search.toLowerCase()))
 
   const allItems = [
     ...filteredFolders.map((f) => ({ type: 'folder', data: f })),
@@ -127,10 +123,7 @@ export function ObjectTable({
     if (!renamingObject || !newName) return
     setIsActionLoading(true)
     try {
-      const currentPrefix = renamingObject.key.substring(
-        0,
-        renamingObject.key.lastIndexOf('/') + 1,
-      )
+      const currentPrefix = renamingObject.key.substring(0, renamingObject.key.lastIndexOf('/') + 1)
       const newKey = `${currentPrefix}${newName}`
 
       await renameObject({
@@ -149,8 +142,7 @@ export function ObjectTable({
 
   const handleDownload = async (obj: any) => {
     try {
-      const { getDownloadUrl } =
-        await import('@/routes/browser/-$bucket.server')
+      const { getDownloadUrl } = await import('@/routes/browser/-$bucket.server')
       const { url } = await getDownloadUrl({ data: { bucket, key: obj.key } })
 
       const link = document.createElement('a')
@@ -254,12 +246,8 @@ export function ObjectTable({
                               <span className="truncate block max-w-[300px]">
                                 {folder.split('/').filter(Boolean).pop()}/
                               </span>
-                              <span className="ml-auto text-muted-foreground text-sm">
-                                -
-                              </span>
-                              <span className="text-muted-foreground text-sm min-w-[120px]">
-                                -
-                              </span>
+                              <span className="ml-auto text-muted-foreground text-sm">-</span>
+                              <span className="text-muted-foreground text-sm min-w-[120px]">-</span>
                               <div className="h-8 w-8" />
                             </Link>
                           </TableCell>
@@ -286,46 +274,28 @@ export function ObjectTable({
                         <TableCell className="h-12 py-0">
                           <div className="flex items-center gap-2 font-medium max-w-[300px]">
                             <File className="h-4 w-4 text-muted-foreground shrink-0" />
-                            <span className="truncate block">
-                              {obj.key.split('/').pop()}
-                            </span>
+                            <span className="truncate block">{obj.key.split('/').pop()}</span>
                           </div>
                         </TableCell>
+                        <TableCell className="h-12 py-0">{formatBytes(obj.size)}</TableCell>
                         <TableCell className="h-12 py-0">
-                          {formatBytes(obj.size)}
-                        </TableCell>
-                        <TableCell className="h-12 py-0">
-                          {format(
-                            new Date(obj.lastModified),
-                            'MMM d, yyyy HH:mm',
-                          )}
+                          {format(new Date(obj.lastModified), 'MMM d, yyyy HH:mm')}
                         </TableCell>
                         <TableCell className="h-12 py-0 text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger
-                              render={
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8"
-                                />
-                              }
+                              render={<Button variant="ghost" size="icon" className="h-8 w-8" />}
                             >
                               <MoreHorizontal className="h-4 w-4" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuGroup>
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem
-                                  onClick={() => onSelectObject(obj)}
-                                >
-                                  <Info className="mr-2 h-4 w-4" /> View
-                                  Metadata
+                                <DropdownMenuItem onClick={() => onSelectObject(obj)}>
+                                  <Info className="mr-2 h-4 w-4" /> View Metadata
                                 </DropdownMenuItem>
 
-                                <DropdownMenuItem
-                                  onClick={() => handleDownload(obj)}
-                                >
+                                <DropdownMenuItem onClick={() => handleDownload(obj)}>
                                   <Download className="mr-2 h-4 w-4" /> Download
                                 </DropdownMenuItem>
 
@@ -354,10 +324,7 @@ export function ObjectTable({
 
                   {totalItems === 0 && (
                     <TableRow>
-                      <TableCell
-                        colSpan={4}
-                        className="h-24 text-center text-muted-foreground"
-                      >
+                      <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
                         No objects found in this folder.
                       </TableCell>
                     </TableRow>
@@ -371,9 +338,8 @@ export function ObjectTable({
         {totalPages > 1 && (
           <div className="flex items-center justify-between p-4 bg-muted/5">
             <p className="text-sm text-muted-foreground">
-              Showing {startIndex + 1} to{' '}
-              {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems}{' '}
-              items
+              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, totalItems)} of{' '}
+              {totalItems} items
             </p>
             <div className="flex items-center gap-2">
               <Button
@@ -390,9 +356,7 @@ export function ObjectTable({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages, p + 1))
-                }
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
               >
                 Next
@@ -403,10 +367,7 @@ export function ObjectTable({
       </Card>
 
       {/* Delete Confirmation */}
-      <AlertDialog
-        open={!!deletingObject}
-        onOpenChange={() => setDeletingObject(null)}
-      >
+      <AlertDialog open={!!deletingObject} onOpenChange={() => setDeletingObject(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -416,9 +377,7 @@ export function ObjectTable({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isActionLoading}>
-              Cancel
-            </AlertDialogCancel>
+            <AlertDialogCancel disabled={isActionLoading}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={(e) => {
                 e.preventDefault()
@@ -427,9 +386,7 @@ export function ObjectTable({
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               disabled={isActionLoading}
             >
-              {isActionLoading && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {isActionLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -437,16 +394,11 @@ export function ObjectTable({
       </AlertDialog>
 
       {/* Rename Dialog */}
-      <Dialog
-        open={!!renamingObject}
-        onOpenChange={() => setRenamingObject(null)}
-      >
+      <Dialog open={!!renamingObject} onOpenChange={() => setRenamingObject(null)}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Rename Object</DialogTitle>
-            <DialogDescription>
-              Enter a new name for the object.
-            </DialogDescription>
+            <DialogDescription>Enter a new name for the object.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
@@ -470,14 +422,10 @@ export function ObjectTable({
             <Button
               onClick={handleRename}
               disabled={
-                isActionLoading ||
-                !newName ||
-                newName === renamingObject?.key.split('/').pop()
+                isActionLoading || !newName || newName === renamingObject?.key.split('/').pop()
               }
             >
-              {isActionLoading && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {isActionLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Rename
             </Button>
           </DialogFooter>

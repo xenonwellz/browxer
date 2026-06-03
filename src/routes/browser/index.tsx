@@ -26,9 +26,7 @@ function BrowserIndexPage() {
   return (
     <div className="flex h-full items-center justify-center">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-semibold text-muted-foreground">
-          No buckets found
-        </h2>
+        <h2 className="text-2xl font-semibold text-muted-foreground">No buckets found</h2>
         <p className="text-muted-foreground">
           Log in with credentials that have access to S3 buckets.
         </p>

@@ -2,12 +2,7 @@ import * as React from 'react'
 import { Download } from 'lucide-react'
 
 import { buttonVariants } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { cn, formatBytes } from '@/lib/utils'
 
 interface ImagePreviewDialogProps {
@@ -25,9 +20,7 @@ export function ImagePreviewDialog({
   bucket,
   downloadUrl: initialDownloadUrl,
 }: ImagePreviewDialogProps) {
-  const [downloadUrl, setDownloadUrl] = React.useState<string | null>(
-    initialDownloadUrl || null,
-  )
+  const [downloadUrl, setDownloadUrl] = React.useState<string | null>(initialDownloadUrl || null)
   const [isLoading, setIsLoading] = React.useState(false)
 
   React.useEffect(() => {
@@ -47,7 +40,7 @@ export function ImagePreviewDialog({
     if (!open) {
       setDownloadUrl(null)
     }
-  }, [open, object, bucket])
+  }, [open, object, bucket, downloadUrl])
 
   if (!object) return null
 
@@ -62,10 +55,7 @@ export function ImagePreviewDialog({
             <a
               href={downloadUrl}
               download={fileName}
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'sm' }),
-                'mr-8',
-              )}
+              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'mr-8')}
             >
               <Download className="h-4 w-4 mr-2" />
               Download

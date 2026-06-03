@@ -46,9 +46,7 @@ function SelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon
-        render={
-          <CaretDownIcon className="text-muted-foreground size-4 pointer-events-none" />
-        }
+        render={<CaretDownIcon className="text-muted-foreground size-4 pointer-events-none" />}
       />
     </SelectPrimitive.Trigger>
   )
@@ -95,10 +93,7 @@ function SelectContent({
   )
 }
 
-function SelectLabel({
-  className,
-  ...props
-}: SelectPrimitive.GroupLabel.Props) {
+function SelectLabel({ className, ...props }: SelectPrimitive.GroupLabel.Props) {
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
@@ -108,11 +103,7 @@ function SelectLabel({
   )
 }
 
-function SelectItem({
-  className,
-  children,
-  ...props
-}: SelectPrimitive.Item.Props) {
+function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Props) {
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
@@ -136,17 +127,11 @@ function SelectItem({
   )
 }
 
-function SelectSeparator({
-  className,
-  ...props
-}: SelectPrimitive.Separator.Props) {
+function SelectSeparator({ className, ...props }: SelectPrimitive.Separator.Props) {
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
-      className={cn(
-        'bg-border/50 -mx-1 my-1 h-px pointer-events-none',
-        className,
-      )}
+      className={cn('bg-border/50 -mx-1 my-1 h-px pointer-events-none', className)}
       {...props}
     />
   )

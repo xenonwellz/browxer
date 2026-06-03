@@ -1,14 +1,14 @@
-# Contributing to BROW-S3-R
+# Contributing to BROWXER
 
-Thank you for your interest in contributing to BROW-S3-R! We welcome contributions from the community to help make this S3 explorer even better.
+Thank you for your interest in contributing to BROWXER! We welcome contributions from the community to help make this S3 explorer even better.
 
 ## How to Contribute
 
 1.  **Fork the Repository**: Create a fork of the repository on your GitHub account.
 2.  **Clone the Repository**: Clone your fork to your local machine.
     ```bash
-    git clone https://github.com/YOUR_USERNAME/brows3r.git
-    cd brows3r
+    git clone https://github.com/YOUR_USERNAME/browxer.git
+    cd browxer
     ```
 3.  **Install Dependencies**: Use [Bun](https://bun.sh/) to install dependencies.
     ```bash
@@ -44,4 +44,4 @@ Thank you for your interest in contributing to BROW-S3-R! We welcome contributio
 
 ## License
 
-By contributing to BROW-S3-R, you agree that your contributions will be licensed under the MIT License.
+By contributing to BROWXER, you agree that your contributions will be licensed under the MIT License.
